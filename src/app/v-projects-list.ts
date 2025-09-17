@@ -1,28 +1,32 @@
 export interface Project {
     title: string;
     description: string;
+    status?: string; 
     link: string;
 }
 
 export const projects: Project[] = [
     {
         title: "Cakefy",
-        description: "Aplicação para gerenciamento de pedidos de bolos",
+        description: "Application for managing a confectionery business",
+        status: "(in progress)",
         link: "https://github.com/EricMariano/gestao-de-confeitaria-v2"
     },
     {
-        title: "Simulador Brasileirão",
-        description: "Simulador de campeonato brasileiro de futebol",
+        title: "Brasileirão",
+        description: "Brazilian football championship simulator",
+        status: "(my first project)",
         link: "https://github.com/EricMariano/SimuladorBrasileirao"
     },
     {
-        title: "ERP-Personal Trainer",
-        description: "Sistema de gestão para personal trainers",
+        title: "Central Personal",
+        description: "Management system for personal trainers",
+        status: "(borning)",
         link: "https://github.com/ericmariano/erp-personal-trainer"
     },
     {
         title: "Residência II",
-        description: "Projeto desenvolvido durante residência em software",
+        description: "AI agent for sentiment analysis made during the software residency",
         link: "https://github.com/EricMariano/residencia-II"
     }
 ];

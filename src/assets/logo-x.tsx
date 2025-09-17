@@ -2,7 +2,6 @@ export default function LogoX() {
     return (
         <svg 
         className="w-4 h-4 mt-1 group" 
-        strokeWidth={1.8} 
         width="18" 
         height="18" 
         viewBox="0 0 1200 1227" 
