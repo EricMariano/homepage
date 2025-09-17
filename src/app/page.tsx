@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { Header } from "./c-header";
 import { Projects } from "./c-projects";
 import { Footer } from "./c-footer";

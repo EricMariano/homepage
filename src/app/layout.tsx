@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Inter, Instrument_Serif } from "next/font/google";
+import { Inter, Instrument_Serif } from "next/font/google";
 import "./globals.css";
 
 export const instrumentSerif = Instrument_Serif({

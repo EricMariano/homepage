@@ -3,7 +3,7 @@
 import Link from "next/link"; 
 import { Separator } from "@/components/ui/separator";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { Github, Mail, ArrowUpRight } from "lucide-react";
+import { Github, Mail } from "lucide-react";
 import LogoX from "@/assets/logo-x";
 
 export function Header() {
