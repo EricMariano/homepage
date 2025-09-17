@@ -118,6 +118,9 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-[#F5F5F5] text-foreground;
+    @apply bg-[#efefef] text-foreground;
   }
+  /* body {
+    @apply bg-[#F3E8C7] text-foreground;
+  } */
 }

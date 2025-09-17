@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { Header } from "./c-header";
+import { Projects } from "./c-projects";
 import { Footer } from "./c-footer";
 
 export default function Home() {
@@ -13,10 +14,10 @@ export default function Home() {
           <header>
             <Header />
           </header>
-          <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-          
-          </main>
         </div>
+          <main className="flex flex-col gap-[32px] row-start-2 items-start">
+            <Projects />
+          </main>
         <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
             <Footer />
         </footer>
