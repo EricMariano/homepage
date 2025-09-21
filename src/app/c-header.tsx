@@ -3,7 +3,7 @@
 import Link from "next/link"; 
 import { Separator } from "@/components/ui/separator";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { Github, Mail } from "lucide-react";
+import { Github, Mail, Linkedin } from "lucide-react";
 import LogoX from "@/assets/logo-x";
 
 export function Header() {
@@ -28,6 +28,19 @@ export function Header() {
                     <TooltipProvider>
                         <Tooltip>
                             <TooltipTrigger asChild>
+                                <Link href="https://www.linkedin.com/in/ericbfmariano/" target="_blank">
+                                    <Linkedin className="w-4.5 h-5 mt-1 text-[#A3A3A3] hover:text-[#878787] transition-colors duration-200" strokeWidth={1.6} />
+                                </Link>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                                <p>Follow me on LinkedIn</p>
+                            </TooltipContent>
+                        </Tooltip>
+                    </TooltipProvider>
+
+                    <TooltipProvider>
+                        <Tooltip>
+                            <TooltipTrigger asChild>
                                 <Link href="https://x.com/ericmarianodev" target="_blank">
                                     <LogoX />
                                 </Link>
@@ -37,6 +50,7 @@ export function Header() {
                             </TooltipContent>
                         </Tooltip>
                     </TooltipProvider>
+
                     <TooltipProvider>
                         <Tooltip>
                             <TooltipTrigger asChild>
@@ -52,7 +66,7 @@ export function Header() {
                 </div>    
             </div>
             <Separator />
-            <p className="text-[12px] md:text-base text-[#A3A3A3]">Currently a computer science student and researcher at Universidade Tiradentes, focused on the javascript ecosystem.</p>
+            <p className="text-[12px] md:text-base text-[#A3A3A3]">Currently a computer science student and researcher at Universidade Tiradentes, focused on the javascript and python<span className="text-[12px]">(AI)</span> ecosystems.</p>
         </section>
     )
 }
