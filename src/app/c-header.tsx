@@ -8,14 +8,19 @@ import LogoX from "@/assets/logo-x";
 
 export function Header() {
     return (
-        <section className="flex flex-col items-start gap-2 pb-4">
+        <header className="flex flex-col items-start gap-2 pb-4">
             <div className="flex justify-between items-center w-full">
                 <h1 className="font-instrument-serif md:text-3xl text-xl">Eric Mariano - Software Engineer</h1>
                 <div className="flex items-center gap-2">
                     <TooltipProvider>
                         <Tooltip>
                             <TooltipTrigger asChild>
-                                <Link href="https://github.com/ericmariano" target="_blank">
+                                <Link 
+                                    href="https://github.com/ericmariano" 
+                                    target="_blank"
+                                    aria-label="GitHub do Eric Mariano"
+                                    rel="noopener noreferrer"
+                                >
                                     <Github className="w-4.5 h-4.5 mt-1 text-[#A3A3A3] hover:text-[#878787] transition-colors duration-200" strokeWidth={1.8} />
                                 </Link>
                             </TooltipTrigger>
@@ -28,7 +33,12 @@ export function Header() {
                     <TooltipProvider>
                         <Tooltip>
                             <TooltipTrigger asChild>
-                                <Link href="https://www.linkedin.com/in/ericbfmariano/" target="_blank">
+                                <Link 
+                                    href="https://www.linkedin.com/in/ericbfmariano/" 
+                                    target="_blank"
+                                    aria-label="LinkedIn do Eric Mariano"
+                                    rel="noopener noreferrer"
+                                >
                                     <Linkedin className="w-4.5 h-5 mt-1 text-[#A3A3A3] hover:text-[#878787] transition-colors duration-200" strokeWidth={1.6} />
                                 </Link>
                             </TooltipTrigger>
@@ -41,7 +51,12 @@ export function Header() {
                     <TooltipProvider>
                         <Tooltip>
                             <TooltipTrigger asChild>
-                                <Link href="https://x.com/ericmarianodev" target="_blank">
+                                <Link 
+                                    href="https://x.com/ericmarianodev" 
+                                    target="_blank"
+                                    aria-label="X (Twitter) do Eric Mariano"
+                                    rel="noopener noreferrer"
+                                >
                                     <LogoX />
                                 </Link>
                             </TooltipTrigger>
@@ -54,7 +69,10 @@ export function Header() {
                     <TooltipProvider>
                         <Tooltip>
                             <TooltipTrigger asChild>
-                                <Link href="mailto:ericbfmariano@gmail.com">
+                                <Link 
+                                    href="mailto:ericbfmariano@gmail.com"
+                                    aria-label="Enviar email para Eric Mariano"
+                                >
                                     <Mail className="w-4.5 h-4.5 mt-1 text-[#A3A3A3] hover:text-[#878787] transition-colors duration-200" strokeWidth={1.8} />
                                 </Link>
                             </TooltipTrigger>
@@ -67,6 +85,6 @@ export function Header() {
             </div>
             <Separator />
             <p className="text-[12px] md:text-base text-[#A3A3A3]">Currently a computer science student and researcher at Universidade Tiradentes, focused on the javascript and python<span className="text-[12px]">(AI)</span> ecosystems.</p>
-        </section>
+        </header>
     )
 }

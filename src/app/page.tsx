@@ -10,16 +10,19 @@ export default function Home() {
     >
       <div className="mx-6 flex h-full min-h-screen w-full flex-col sm:mx-0 sm:w-[30rem] md:w-[40rem]">
         <div className="flex items-center justify-between pt-16 sm:pb-4 sm:pt-20">
-          <header>
-            <Header />
-          </header>
+          <Header />
         </div>
-          <main className="flex flex-col gap-[32px] row-start-2 items-start">
+        <main 
+          id="main-content"
+          className="flex flex-col gap-[32px] row-start-2 items-start"
+          role="main"
+          aria-label="Conteúdo principal"
+        >
+          <section id="projects" aria-labelledby="projects-heading">
             <Projects />
-          </main>
-        <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-            <Footer />
-        </footer>
+          </section>
+        </main>
+        <Footer />
       </div>
     </div>
   );
