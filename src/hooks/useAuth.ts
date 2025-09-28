@@ -49,11 +49,35 @@ export function useAuth() {
     checkAuth()
   }, [])
 
+  const register = async (name: string, email: string, password: string) => {
+    try {
+      const response = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ name, email, password })
+      })
+
+      const data = await response.json()
+
+      if (response.ok) {
+        localStorage.setItem('token', data.token)
+        setUser(data.user)
+        return { success: true, user: data.user }
+      } else {
+        return { success: false, error: data.error }
+      }
+    } catch (error) {
+      return { success: false, error: 'Erro de conexão' }
+    }
+  }
+
   const logout = () => {
     localStorage.removeItem('token')
     setUser(null)
     router.push('/')
   }
 
-  return { user, loading, logout }
+  return { user, loading, logout, register }
 }
