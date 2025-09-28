@@ -1,4 +1,4 @@
-import { LoginForm } from "./c-login"
+import { LoginForm } from "./c-login-form"
 
 export default function LoginPage() {
   return (

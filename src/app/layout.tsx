@@ -15,7 +15,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://ericmariano.dev'),
+  metadataBase: new URL('https://ericmariano-homepage.vercel.app/'),
   title: {
     default: "Eric Mariano - Software Engineer & Developer",
     template: "%s | Eric Mariano"
@@ -55,7 +55,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "pt_BR",
-    url: "https://ericmariano.dev",
+    url: "https://ericmariano-homepage.vercel.app/",
     siteName: "Eric Mariano",
     title: "Eric Mariano - Software Engineer & Developer",
     description: "Software Engineer and Computer Science student at Universidade Tiradentes. Specialized in JavaScript, Python, AI, and full-stack development.",
@@ -79,7 +79,7 @@ export const metadata: Metadata = {
     google: "your-google-verification-code", // Substitua pelo seu código do Google Search Console
   },
   alternates: {
-    canonical: "https://ericmariano.dev",
+    canonical: "https://ericmariano-homepage.vercel.app/",
   },
 };
 
