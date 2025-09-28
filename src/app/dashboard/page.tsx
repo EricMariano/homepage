@@ -2,16 +2,29 @@ import { prisma } from '@/lib/prisma'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 
+// Força renderização no servidor (não estática)
+export const dynamic = 'force-dynamic'
+
 export default async function Dashboard() {
-  // Buscar estatísticas
-  const totalPosts = await prisma.post.count()
-  const publishedPosts = await prisma.post.count({
-    where: { status: 'PUBLISHED' }
-  })
-  const draftPosts = await prisma.post.count({
-    where: { status: 'DRAFT' }
-  })
-  const totalCategories = await prisma.category.count()
+  // Buscar estatísticas com tratamento de erro
+  let totalPosts = 0
+  let publishedPosts = 0
+  let draftPosts = 0
+  let totalCategories = 0
+
+  try {
+    totalPosts = await prisma.post.count()
+    publishedPosts = await prisma.post.count({
+      where: { status: 'PUBLISHED' }
+    })
+    draftPosts = await prisma.post.count({
+      where: { status: 'DRAFT' }
+    })
+    totalCategories = await prisma.category.count()
+  } catch (error) {
+    console.error('Erro ao conectar com o banco de dados:', error)
+    // Em caso de erro, os valores permanecem 0
+  }
 
   return (
     <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
