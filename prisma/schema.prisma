@@ -14,11 +14,46 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id String @id @default(uuid())
+  email String @unique
+  password String
+  name String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Category {
+  id String @id @default(uuid())
+  name String @unique
+  slug String @unique
+  description String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  // Relacionamentos
+  posts Post[]
+}
+
 model Post {
-  id String @id @default(uuid()) // primary key
-  slug String @unique // para url 
+  id String @id @default(uuid())
+  slug String @unique
   title String
-  description String
+  excerpt String?
   content String
-  publishedAt DateTime @default(now())
+  tags String? // JSON string com array de tags
+  featuredImage String?
+  status PostStatus @default(DRAFT)
+  publishedAt DateTime?
+  updatedAt DateTime @updatedAt
+  
+  // Relacionamentos
+  categoryId String
+  category Category @relation(fields: [categoryId], references: [id])
+}
+
+enum PostStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
 }
