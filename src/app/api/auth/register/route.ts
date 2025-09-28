@@ -70,6 +70,24 @@ export async function POST(request: NextRequest) {
 
   } catch (error) {
     console.error('Erro no registro:', error)
+    
+    // Verificar se é erro de banco de dados
+    if (error instanceof Error && error.message.includes('Unique constraint')) {
+      return NextResponse.json(
+        { error: 'Este email já está em uso' },
+        { status: 409 }
+      )
+    }
+    
+    // Verificar se é erro de conexão com banco
+    if (error instanceof Error && (error.message.includes('connect') || error.message.includes('database'))) {
+      console.error('Erro de conexão com banco de dados:', error)
+      return NextResponse.json(
+        { error: 'Erro de conexão com o banco de dados' },
+        { status: 503 }
+      )
+    }
+    
     return NextResponse.json(
       { error: 'Erro interno do servidor' },
       { status: 500 }

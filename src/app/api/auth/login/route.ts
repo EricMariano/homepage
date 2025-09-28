@@ -47,6 +47,16 @@ export async function POST(request: NextRequest) {
     })
   } catch (error) {
     console.error('Erro no login:', error)
+    
+    // Verificar se é erro de conexão com banco
+    if (error instanceof Error && (error.message.includes('connect') || error.message.includes('database'))) {
+      console.error('Erro de conexão com banco de dados:', error)
+      return NextResponse.json(
+        { error: 'Erro de conexão com o banco de dados' },
+        { status: 503 }
+      )
+    }
+    
     return NextResponse.json(
       { error: 'Erro interno do servidor' },
       { status: 500 }

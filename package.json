@@ -7,7 +7,11 @@
     "build": "prisma generate && next build --turbopack",
     "start": "next start",
     "lint": "eslint",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "setup:dev": "node scripts/setup-dev.sqlite.js && npx prisma generate && npx prisma db push",
+    "setup:prod": "node scripts/setup-prod.postgresql.js && npx prisma generate",
+    "db:push": "npx prisma db push",
+    "db:generate": "npx prisma generate"
   },
   "dependencies": {
     "@mdx-js/loader": "^3.1.1",
