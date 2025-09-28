@@ -1,5 +1,6 @@
 import { Header } from "./c-header";
 import { Projects } from "./c-projects";
+import { Blog } from "./c-blog";
 import { Footer } from "./c-footer";
 
 export default function Home() {
@@ -14,12 +15,15 @@ export default function Home() {
         </div>
         <main 
           id="main-content"
-          className="flex flex-col gap-[32px] row-start-2 items-start"
+          className="flex flex-col gap-[24px] row-start-2 items-start"
           role="main"
           aria-label="Conteúdo principal"
         >
           <section id="projects" aria-labelledby="projects-heading">
             <Projects />
+          </section>
+          <section id="blog" aria-labelledby="blog-heading">
+            <Blog />
           </section>
         </main>
         <Footer />
