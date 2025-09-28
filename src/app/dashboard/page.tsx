@@ -27,47 +27,56 @@ export default async function Dashboard() {
   }
 
   return (
-    <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
-      <div className="w-full max-w-4xl">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2">Dashboard</h1>
-          <p className="text-gray-600">Bem-vindo ao painel administrativo</p>
+    <div className="min-h-screen bg-white">
+      <div className="max-w-6xl mx-auto px-6 py-12">
+        {/* Header */}
+        <div className="mb-12">
+          <h1 className="text-2xl font-medium text-gray-900 mb-1">Dashboard</h1>
+          <p className="text-gray-500">Painel administrativo</p>
         </div>
 
-        {/* Estatísticas */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <div className="bg-white p-6 rounded-lg border shadow-sm">
-            <h3 className="text-lg font-semibold mb-2">Total de Posts</h3>
-            <p className="text-3xl font-bold text-blue-600">{totalPosts}</p>
+        {/* Stats */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
+          <div className="text-center">
+            <div className="text-3xl font-light text-gray-900 mb-1">{totalPosts}</div>
+            <div className="text-sm text-gray-500">Total Posts</div>
           </div>
           
-          <div className="bg-white p-6 rounded-lg border shadow-sm">
-            <h3 className="text-lg font-semibold mb-2">Posts Publicados</h3>
-            <p className="text-3xl font-bold text-green-600">{publishedPosts}</p>
+          <div className="text-center">
+            <div className="text-3xl font-light text-gray-900 mb-1">{publishedPosts}</div>
+            <div className="text-sm text-gray-500">Publicados</div>
           </div>
           
-          <div className="bg-white p-6 rounded-lg border shadow-sm">
-            <h3 className="text-lg font-semibold mb-2">Rascunhos</h3>
-            <p className="text-3xl font-bold text-yellow-600">{draftPosts}</p>
+          <div className="text-center">
+            <div className="text-3xl font-light text-gray-900 mb-1">{draftPosts}</div>
+            <div className="text-sm text-gray-500">Rascunhos</div>
           </div>
           
-          <div className="bg-white p-6 rounded-lg border shadow-sm">
-            <h3 className="text-lg font-semibold mb-2">Categorias</h3>
-            <p className="text-3xl font-bold text-purple-600">{totalCategories}</p>
+          <div className="text-center">
+            <div className="text-3xl font-light text-gray-900 mb-1">{totalCategories}</div>
+            <div className="text-sm text-gray-500">Categorias</div>
           </div>
         </div>
 
-        {/* Ações rápidas */}
-        <div className="bg-white p-6 rounded-lg border shadow-sm">
-          <h3 className="text-lg font-semibold mb-4">Ações Rápidas</h3>
-          <div className="flex gap-4">
-            <Link href="/create-post">
-              <Button>Criar Novo Post</Button>
-            </Link>
-            <Link href="/">
-              <Button variant="outline">Ver Blog</Button>
-            </Link>
-          </div>
+        {/* Actions */}
+        <div className="flex gap-3">
+          <Link href="/create-post">
+            <Button variant="outline" className="h-9">
+              Criar Post
+            </Button>
+          </Link>
+          
+          <Link href="/">
+            <Button variant="outline" className="h-9">
+              Ver Blog
+            </Button>
+          </Link>
+          
+          <Link href="/manage-posts">
+            <Button variant="outline" className="h-9">
+              Gerenciar Posts
+            </Button>
+          </Link>
         </div>
       </div>
     </div>

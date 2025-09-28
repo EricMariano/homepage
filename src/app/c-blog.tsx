@@ -38,6 +38,10 @@ export function Blog() {
     fetchPosts()
   }, [])
 
+  // Limitar a 6 posts para exibição
+  const displayedPosts = posts.slice(0, 6)
+  const hasMorePosts = posts.length > 6
+
   if (loading) {
     return (
       <div className="flex flex-col items-start gap-2 pb-4">
@@ -48,12 +52,14 @@ export function Blog() {
   }
 
   return (
-    <div className="flex flex-col items-start gap-2 pb-4" aria-labelledby="blog-heading">
+    <div className="flex flex-col items-start gap-2 pb-8" aria-labelledby="blog-heading">
       <div className="flex justify-between items-center w-full">
         <h1 className="text-sm text-[#A3A3A3] pb-2.5">Blog</h1>
       </div>
-      <div className="grid md:grid-cols-3 grid-rows-1 items-start w-full gap-x-24 gap-y-10" role="list" aria-label="Lista de posts">
-        {posts.map((post) => (
+      
+      {/* Grid de duas colunas */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-40 gap-y-10 w-full" role="list" aria-label="Lista de posts">
+        {displayedPosts.map((post) => (
           <article key={post.id} className="flex flex-col gap-1" role="listitem">
             <a 
               href={`/posts/${post.slug}`} 
@@ -66,6 +72,18 @@ export function Blog() {
           </article>
         ))}
       </div>
+
+      {/* Botão See More */}
+      {hasMorePosts && (
+        <div className="pt-2">
+          <a 
+            href="/blog" 
+            className="text-xs text-[#737377] hover:text-gray-900 transition-colors underline underline-offset-2"
+          >
+            See more...
+          </a>
+        </div>
+      )}
     </div>
   )
 }
