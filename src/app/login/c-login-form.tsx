@@ -106,13 +106,6 @@ export function LoginForm({
                   Login com IP
                 </Button>
               </div>
-              
-              <div className="text-center text-sm text-gray-600">
-                Não tem uma conta?{' '}
-                <Link href="/register" className="text-indigo-600 hover:text-indigo-500 font-medium">
-                  Criar conta
-                </Link>
-              </div>
             </div>
           </form>
         </CardContent>
