@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 
-// GET - Buscar todas as categorias
 export async function GET() {
   try {
     const categories = await prisma.category.findMany({
@@ -20,7 +19,6 @@ export async function GET() {
   }
 }
 
-// POST - Criar nova categoria
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()

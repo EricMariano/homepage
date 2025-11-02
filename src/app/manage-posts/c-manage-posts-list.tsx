@@ -38,7 +38,6 @@ export function ManagePostsList({ posts }: ManagePostsListProps) {
       })
 
       if (response.ok) {
-        // Remover post da lista local
         setPostsList(postsList.filter(post => post.id !== postId))
         router.refresh()
       } else {

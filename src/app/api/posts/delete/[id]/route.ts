@@ -7,7 +7,6 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    // Verificar autenticação
     const token = request.headers.get('authorization')?.replace('Bearer ', '')
     
     if (!token) {
@@ -27,7 +26,6 @@ export async function DELETE(
 
     const { id: postId } = await params
 
-    // Verificar se o post existe
     const post = await prisma.post.findUnique({
       where: { id: postId }
     })
@@ -39,7 +37,6 @@ export async function DELETE(
       )
     }
 
-    // Excluir o post
     await prisma.post.delete({
       where: { id: postId }
     })

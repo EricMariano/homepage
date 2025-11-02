@@ -24,7 +24,6 @@ export function Blog() {
         const response = await fetch('/api/posts')
         if (response.ok) {
           const data = await response.json()
-          // Filtrar apenas posts publicados
           const publishedPosts = data.filter((post: Post) => post.status === 'PUBLISHED')
           setPosts(publishedPosts)
         }

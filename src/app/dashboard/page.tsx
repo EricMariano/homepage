@@ -2,11 +2,9 @@ import { prisma } from '@/lib/prisma'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 
-// Força renderização no servidor (não estática)
 export const dynamic = 'force-dynamic'
 
 export default async function Dashboard() {
-  // Buscar estatísticas com tratamento de erro
   let totalPosts = 0
   let publishedPosts = 0
   let draftPosts = 0

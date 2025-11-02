@@ -13,7 +13,6 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Buscar usuário no banco
     const user = await prisma.user.findUnique({
       where: { email }
     })
@@ -25,7 +24,6 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Verificar senha
     const isValidPassword = await verifyPassword(password, user.password)
     if (!isValidPassword) {
       return NextResponse.json(
@@ -34,7 +32,6 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Gerar token
     const token = generateToken(user.id)
 
     return NextResponse.json({
@@ -48,7 +45,6 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error('Erro no login:', error)
     
-    // Verificar se é erro de conexão com banco
     if (error instanceof Error && (error.message.includes('connect') || error.message.includes('database'))) {
       console.error('Erro de conexão com banco de dados:', error)
       return NextResponse.json(

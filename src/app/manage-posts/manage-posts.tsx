@@ -1,7 +1,6 @@
 import { prisma } from '@/lib/prisma'
 import { ManagePostsList } from './c-manage-posts-list'
 
-// Força renderização no servidor (não estática)
 export const dynamic = 'force-dynamic'
 
 interface Post {
@@ -16,7 +15,6 @@ interface Post {
 }
 
 export default async function ManagePostsPage() {
-  // Buscar posts com tratamento de erro
   let posts: Post[] = []
 
   try {

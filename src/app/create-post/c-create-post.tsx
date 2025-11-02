@@ -60,7 +60,6 @@ export function CreatePost({
   useEffect(() => {
     fetchCategories()
   }, [])
-  // Adicione estas funções no componente CreatePost
 
 const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault()
@@ -84,10 +83,8 @@ const handleSubmit = async (e: React.FormEvent) => {
     })
 
     if (response.ok) {
-      // Sucesso - limpar formulário ou redirecionar
       console.log('Post criado com sucesso!')
     } else {
-      // Erro
       console.error('Erro ao criar post')
     }
   } catch (error) {
@@ -95,13 +92,10 @@ const handleSubmit = async (e: React.FormEvent) => {
   }
 }
 
-// E modifique o form para usar onSubmit={handleSubmit}
-// src/app/create-post/c-create-post.tsx
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newTitle = e.target.value
     setTitle(newTitle)
     
-    // Só atualiza o slug automaticamente se não foi editado manualmente
     if (!isSlugManual) {
       setSlug(generateSlug(newTitle))
     }
@@ -132,9 +126,7 @@ const handleSubmit = async (e: React.FormEvent) => {
           label: newCategory.name
         }
         
-        // Adiciona a nova categoria à lista
         setCategories(prev => [...prev, formattedCategory])
-        // Seleciona a nova categoria
         setCategory(newCategory.id)
       } else {
         console.error('Erro ao criar categoria')

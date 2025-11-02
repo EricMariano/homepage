@@ -24,7 +24,6 @@ export function useAuth() {
       }
 
       try {
-        // Verificar se token ainda é válido
         const response = await fetch('/api/auth/me', {
           headers: {
             'Authorization': `Bearer ${token}`
@@ -35,7 +34,6 @@ export function useAuth() {
           const userData = await response.json()
           setUser(userData)
         } else {
-          // Token inválido, remover
           localStorage.removeItem('token')
         }
       } catch (error) {
