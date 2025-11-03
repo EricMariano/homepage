@@ -1,21 +1,12 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { IPost } from "@/interfaces/posts"
 
-interface Post {
-  id: string
-  title: string
-  slug: string
-  excerpt: string
-  publishedAt: string
-  status: string
-  category: {
-    name: string
-  }
-}
+
 
 export function Blog() {
-  const [posts, setPosts] = useState<Post[]>([])
+  const [posts, setPosts] = useState<IPost[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -24,7 +15,7 @@ export function Blog() {
         const response = await fetch('/api/posts')
         if (response.ok) {
           const data = await response.json()
-          const publishedPosts = data.filter((post: Post) => post.status === 'PUBLISHED')
+          const publishedPosts = data.filter((post: IPost) => post.status === 'PUBLISHED')
           setPosts(publishedPosts)
         }
       } catch (error) {

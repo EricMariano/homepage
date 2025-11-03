@@ -4,20 +4,11 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
-
-interface Post {
-  id: string
-  title: string
-  slug: string
-  status: string
-  updatedAt: Date
-  category: {
-    name: string
-  }
-}
+import { IPost } from '@/interfaces/posts'
+import { formatDate } from '@/formatters/formatDate'
 
 interface ManagePostsListProps {
-  posts: Post[]
+  posts: IPost[]
 }
 
 export function ManagePostsList({ posts }: ManagePostsListProps) {
@@ -46,14 +37,6 @@ export function ManagePostsList({ posts }: ManagePostsListProps) {
     } catch {
       alert('Erro ao excluir post')
     }
-  }
-
-  const formatDate = (date: Date) => {
-    return date.toLocaleDateString('pt-BR', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric'
-    })
   }
 
   const getStatusColor = (status: string) => {
@@ -108,7 +91,7 @@ export function ManagePostsList({ posts }: ManagePostsListProps) {
                 </div>
                 <div className="flex items-center gap-4 text-sm text-gray-500">
                   <span>Categoria: {post.category.name}</span>
-                  <span>Atualizado: {formatDate(post.updatedAt)}</span>
+                  <span>Atualizado: {formatDate(post.publishedAt)}</span>
                   <span>Slug: {post.slug}</span>
                 </div>
               </div>

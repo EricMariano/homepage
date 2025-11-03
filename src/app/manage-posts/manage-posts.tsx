@@ -1,21 +1,11 @@
 import { prisma } from '@/lib/prisma'
 import { ManagePostsList } from './c-manage-posts-list'
+import { IPost } from '@/interfaces/posts'
 
 export const dynamic = 'force-dynamic'
 
-interface Post {
-  id: string
-  title: string
-  slug: string
-  status: string
-  updatedAt: Date
-  category: {
-    name: string
-  }
-}
-
 export default async function ManagePostsPage() {
-  let posts: Post[] = []
+  let posts: IPost[] = []
 
   try {
     posts = await prisma.post.findMany({
