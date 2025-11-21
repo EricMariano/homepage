@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Instrument_Serif } from "next/font/google";
 import "./globals.css";
 import { StructuredData } from "@/components/structured-data";
+import { Analytics } from "@vercel/analytics/react";
 
 export const instrumentSerif = Instrument_Serif({
   subsets: ["latin"],
@@ -98,6 +99,7 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         {children}
+        <Analytics />
       </body>
     </html>
   );
