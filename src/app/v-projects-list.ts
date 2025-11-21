@@ -19,10 +19,10 @@ export const projects: Project[] = [
         link: "https://github.com/EricMariano/SimuladorBrasileirao"
     },
     {
-        title: "Central Personal",
-        description: "Management system for personal trainers",
-        status: "(borning)",
-        link: "https://github.com/ericmariano/erp-personal-trainer"
+        title: "MeuBolso",
+        description: "Personal finance management system",
+        status: "(coming soon)",
+        link: "https://github.com/EricMariano/trackmymoney-front.git"
     },
     {
         title: "Residência II",
