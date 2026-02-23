@@ -4,7 +4,7 @@ import "./globals.css";
 import { StructuredData } from "@/components/structured-data";
 import { Analytics } from "@vercel/analytics/react";
 
-export const instrumentSerif = Instrument_Serif({
+const instrumentSerif = Instrument_Serif({
   subsets: ["latin"],
   variable: "--font-instrument-serif",
   weight: ["400"],

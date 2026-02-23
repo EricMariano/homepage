@@ -2,8 +2,11 @@ import { Header } from "./c-header";
 import { Projects } from "./c-projects";
 import { Blog } from "./c-blog";
 import { Footer } from "./c-footer";
+import { getPosts } from "@/lib/posts";
 
-export default function Home() {
+export default async function Home() {
+  const posts = await getPosts();
+
   return (
     <div 
       className="flex h-full min-h-screen w-full md:flex-col md:items-center"
@@ -23,7 +26,7 @@ export default function Home() {
             <Projects />
           </section>
           <section id="blog" aria-labelledby="blog-heading">
-            <Blog />
+            <Blog posts={posts} />
           </section>
         </main>
         <Footer />
