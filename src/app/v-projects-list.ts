@@ -7,9 +7,21 @@ export interface Project {
 
 export const projects: Project[] = [
     {
+        title: "MeuBolso",
+        description: "Personal finance management system",
+        status: "(refactoring)",
+        link: "https://github.com/EricMariano/trackmymoney-front.git"
+    },
+    {
+        title: "Hackathon API",
+        description: "API for hackathon management",
+        status: "(development)",
+        link: "https://github.com/EricMariano/hackathon-api.git"
+    },
+    {
         title: "Cakefy",
         description: "Application for managing a confectionery business",
-        status: "(in progress)",
+        status: "(paused)",
         link: "https://github.com/EricMariano/gestao-de-confeitaria-v2"
     },
     {
@@ -18,15 +30,4 @@ export const projects: Project[] = [
         status: "(my first project)",
         link: "https://github.com/EricMariano/SimuladorBrasileirao"
     },
-    {
-        title: "MeuBolso",
-        description: "Personal finance management system",
-        status: "(coming soon)",
-        link: "https://github.com/EricMariano/trackmymoney-front.git"
-    },
-    {
-        title: "Residência II",
-        description: "AI agent for sentiment analysis made during the software residency",
-        link: "https://github.com/EricMariano/residencia-II"
-    }
 ];
