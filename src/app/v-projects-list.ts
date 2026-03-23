@@ -7,16 +7,22 @@ export interface Project {
 
 export const projects: Project[] = [
     {
-        title: "MeuBolso",
-        description: "Personal finance management system",
-        status: "(refactoring)",
-        link: "https://github.com/EricMariano/trackmymoney-front.git"
+        title: "Chat Policy",
+        description: "Rag based chatbot for policy management",
+        status: "(done)",
+        link: "https://github.com/EricMariano/chat-policy-backend"
     },
     {
         title: "Hackathon API",
         description: "API for hackathon management",
-        status: "(development)",
+        status: "(done)",
         link: "https://github.com/EricMariano/hackathon-api.git"
+    },
+    {
+        title: "MeuBolso",
+        description: "Personal finance management system",
+        status: "(refactoring)",
+        link: "https://github.com/EricMariano/trackmymoney-front.git"
     },
     {
         title: "Cakefy",
