@@ -13,13 +13,13 @@ export const projects: Project[] = [
         link: "https://github.com/EricMariano/chat-policy-backend"
     },
     {
-        title: "Hackathon API",
-        description: "API for hackathon management",
+        title: "HackHub",
+        description: "Hackathon management app",
         status: "(done)",
-        link: "https://github.com/EricMariano/hackathon-api.git"
+        link: "hackhub-mocha.vercel.app/pt"
     },
     {
-        title: "MeuBolso",
+        title: "MeuBolso(mypocket)",
         description: "Personal finance management system",
         status: "(refactoring)",
         link: "https://github.com/EricMariano/trackmymoney-front.git"
