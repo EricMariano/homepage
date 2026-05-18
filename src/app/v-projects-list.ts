@@ -16,7 +16,7 @@ export const projects: Project[] = [
         title: "HackHub",
         description: "Hackathon management app",
         status: "(done)",
-        link: "https://hackhub-mocha.vercel.app/pt"
+        link: "https://hackhub-mocha.vercel.app/"
     },
     {
         title: "MeuBolso(mypocket)",
