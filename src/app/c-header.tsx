@@ -84,7 +84,7 @@ export function Header() {
                 </div>    
             </div>
             <Separator />
-            <p className="text-[12px] md:text-base text-[#A3A3A3]">Currently a computer science student and researcher at Universidade Tiradentes, focused on the javascript and python<span className="text-[12px]">(AI)</span> ecosystems.</p>
+            <p className="text-[12px] md:text-base text-[#A3A3A3]">Currently a software engineer, computer science student and researcher at INCT SimAI (Vhlab), focused on the javascript and python<span className="text-[12px]">(AI)</span> ecosystems, RAG techniques, AI and.</p>
         </header>
     )
 }
