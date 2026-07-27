@@ -1,39 +1,58 @@
+import type { Locale } from "@/i18n/config";
+
+type Localized = Record<Locale, string>;
+
 export interface Project {
     title: string;
-    description: string;
-    status?: string; 
+    description: Localized;
+    status?: Localized;
     link: string;
 }
 
 export const projects: Project[] = [
     {
         title: "Chat Policy",
-        description: "Rag based chatbot for policy management",
-        status: "(done)",
+        description: {
+            pt: "Chatbot baseado em RAG para gestão de políticas",
+            en: "Rag based chatbot for policy management",
+        },
+        status: { pt: "(concluído)", en: "(done)" },
         link: "https://github.com/EricMariano/chat-policy-backend"
     },
     {
         title: "Hackathon API",
-        description: "API for hackathon management",
-        status: "(done)",
+        description: {
+            pt: "API para gestão de hackathons",
+            en: "API for hackathon management",
+        },
+        status: { pt: "(concluído)", en: "(done)" },
         link: "https://github.com/EricMariano/hackathon-api.git"
     },
     {
         title: "MeuBolso",
-        description: "Personal finance management system",
-        status: "(refactoring)",
+        description: {
+            pt: "Sistema de gestão de finanças pessoais",
+            en: "Personal finance management system",
+        },
+        status: { pt: "(refatorando)", en: "(refactoring)" },
         link: "https://github.com/EricMariano/trackmymoney-front.git"
     },
     {
         title: "Cakefy",
-        description: "Application for managing a confectionery business",
-        status: "(paused)",
+        description: {
+            pt: "Aplicação para gestão de uma confeitaria",
+            en: "Application for managing a confectionery business",
+        },
+        status: { pt: "(pausado)", en: "(paused)" },
         link: "https://github.com/EricMariano/gestao-de-confeitaria-v2"
     },
     {
         title: "Brasileirão",
-        description: "Brazilian football championship simulator",
-        status: "(my first project)",
+        description: {
+            pt: "Simulador do campeonato brasileiro de futebol",
+            en: "Brazilian football championship simulator",
+        },
+        status: { pt: "(meu primeiro projeto)", en: "(my first project)" },
         link: "https://github.com/EricMariano/SimuladorBrasileirao"
     },
 ];

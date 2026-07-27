@@ -5,7 +5,7 @@ export default function manifest(): MetadataRoute.Manifest {
     name: 'Eric Mariano - Software Engineer & Developer',
     short_name: 'Eric Mariano',
     description: 'Portfolio pessoal de Eric Mariano, Software Engineer e estudante de Ciência da Computação na Universidade Tiradentes.',
-    start_url: '/',
+    start_url: '/pt',
     display: 'standalone',
     background_color: '#ffffff',
     theme_color: '#000000',

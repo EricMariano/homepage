@@ -1,32 +1,28 @@
 import { MetadataRoute } from 'next'
+import { locales } from '@/i18n/config'
+import { getAllSlugs } from '@/lib/posts'
+import { SITE_URL, languageAlternates } from '@/lib/site'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://ericmariano-homepage.vercel.app/'
-  
-  return [
-    {
-      url: baseUrl,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 1,
-    },
-    {
-      url: `${baseUrl}/#projects`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/#about`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
+  const lastModified = new Date()
+
+  const homePages: MetadataRoute.Sitemap = locales.map((locale) => ({
+    url: `${SITE_URL}/${locale}`,
+    lastModified,
+    changeFrequency: 'monthly',
+    priority: 1,
+    alternates: { languages: languageAlternates() },
+  }))
+
+  const postPages: MetadataRoute.Sitemap = locales.flatMap((locale) =>
+    getAllSlugs().map((slug) => ({
+      url: `${SITE_URL}/${locale}/posts/${slug}`,
+      lastModified,
+      changeFrequency: 'monthly' as const,
       priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/#contact`,
-      lastModified: new Date(),
-      changeFrequency: 'yearly',
-      priority: 0.6,
-    },
-  ]
+      alternates: { languages: languageAlternates(`/posts/${slug}`) },
+    }))
+  )
+
+  return [...homePages, ...postPages]
 }
