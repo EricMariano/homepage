@@ -31,9 +31,9 @@ export const en = {
   header: {
     title: "Eric Mariano - Software Engineer",
     bio: {
-      lead: "Currently a computer science student and researcher at Universidade Tiradentes, focused on the javascript and python",
+      lead: "Currently a software engineer, computer science student and researcher at INCT SimAI (Vhlab), focused on the javascript and python",
       highlight: "(AI)",
-      tail: " ecosystems.",
+      tail: " ecosystems, RAG techniques, AI and.",
     },
     github: { tooltip: "Star me on GitHub", label: "Eric Mariano's GitHub" },
     linkedin: { tooltip: "Follow me on LinkedIn", label: "Eric Mariano's LinkedIn" },

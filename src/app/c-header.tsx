@@ -103,7 +103,6 @@ export function Header({ locale, dict }: HeaderProps) {
                 <span className="text-[12px]">{dict.bio.highlight}</span>
                 {dict.bio.tail}
             </p>
-            <p className="text-[12px] md:text-base text-[#A3A3A3]">Currently a software engineer, computer science student and researcher at INCT SimAI (Vhlab), focused on the javascript and python<span className="text-[12px]">(AI)</span> ecosystems, RAG techniques, AI and.</p>
         </header>
     )
 }

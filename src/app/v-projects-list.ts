@@ -20,30 +20,21 @@ export const projects: Project[] = [
         link: "https://github.com/EricMariano/chat-policy-backend"
     },
     {
-        title: "Hackathon API",
+        title: "HackHub",
         description: {
-            pt: "API para gestão de hackathons",
-            en: "API for hackathon management",
+            pt: "Aplicação para gestão de hackathons",
+            en: "Hackathon management app",
         },
         status: { pt: "(concluído)", en: "(done)" },
-        link: "https://github.com/EricMariano/hackathon-api.git"
+        link: "https://hackhub-mocha.vercel.app/"
     },
     {
-        title: "MeuBolso",
+        title: "MeuBolso(mypocket)",
         description: {
             pt: "Sistema de gestão de finanças pessoais",
             en: "Personal finance management system",
         },
         status: { pt: "(refatorando)", en: "(refactoring)" },
-        title: "HackHub",
-        description: "Hackathon management app",
-        status: "(done)",
-        link: "https://hackhub-mocha.vercel.app/"
-    },
-    {
-        title: "MeuBolso(mypocket)",
-        description: "Personal finance management system",
-        status: "(refactoring)",
         link: "https://github.com/EricMariano/trackmymoney-front.git"
     },
     {
