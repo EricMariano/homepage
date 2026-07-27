@@ -43,9 +43,20 @@ const nextConfig: NextConfig = {
     optimizePackageImports: ['lucide-react', '@radix-ui/react-icons'],
   },
   
-  // Redirecionamentos se necessário
+  // Redirecionamentos: as rotas agora vivem sob /pt e /en
   async redirects() {
-    return [];
+    return [
+      {
+        source: '/',
+        destination: '/pt',
+        permanent: false,
+      },
+      {
+        source: '/posts/:slug',
+        destination: '/pt/posts/:slug',
+        permanent: true,
+      },
+    ];
   },
 };
 

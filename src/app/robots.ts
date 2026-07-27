@@ -1,15 +1,14 @@
 import { MetadataRoute } from 'next'
+import { SITE_URL } from '@/lib/site'
 
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = 'https://ericmariano-homepage.vercel.app/'
-  
   return {
     rules: {
       userAgent: '*',
       allow: '/',
       disallow: ['/private/', '/admin/', '/api/'],
     },
-    sitemap: `${baseUrl}/sitemap.xml`,
-    host: baseUrl,
+    sitemap: `${SITE_URL}/sitemap.xml`,
+    host: SITE_URL,
   }
 }

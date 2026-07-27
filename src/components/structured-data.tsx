@@ -1,12 +1,22 @@
 import { projects } from "@/app/v-projects-list";
+import { getDictionary } from "@/i18n";
+import { htmlLang, type Locale } from "@/i18n/config";
+import { SITE_URL } from "@/lib/site";
 
-export function StructuredData() {
+interface StructuredDataProps {
+  locale: Locale;
+}
+
+export function StructuredData({ locale }: StructuredDataProps) {
+  const dict = getDictionary(locale);
+  const localeUrl = `${SITE_URL}/${locale}`;
+
   const personSchema = {
     "@context": "https://schema.org",
     "@type": "Person",
     "name": "Eric Mariano",
     "alternateName": "Eric BF Mariano",
-    "description": "Software Engineer and Computer Science student at Universidade Tiradentes. Specialized in JavaScript, Python, AI, and full-stack development.",
+    "description": dict.metadata.shortDescription,
     "url": "https://ericmariano.dev",
     "image": "https://ericmariano.dev/og-image.jpg",
     "sameAs": [
@@ -20,12 +30,12 @@ export function StructuredData() {
       "name": "Universidade Tiradentes"
     },
     "alumniOf": {
-      "@type": "EducationalOrganization", 
+      "@type": "EducationalOrganization",
       "name": "Universidade Tiradentes"
     },
     "knowsAbout": [
       "JavaScript",
-      "Python", 
+      "Python",
       "Artificial Intelligence",
       "Machine Learning",
       "Full Stack Development",
@@ -47,19 +57,19 @@ export function StructuredData() {
   const websiteSchema = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "name": "Eric Mariano - Software Engineer & Developer",
-    "description": "Personal portfolio and projects by Eric Mariano, Software Engineer and Computer Science student.",
-    "url": "https://ericmariano.dev",
+    "name": dict.metadata.title,
+    "description": dict.metadata.description,
+    "url": localeUrl,
     "author": {
       "@type": "Person",
       "name": "Eric Mariano"
     },
-    "inLanguage": "pt-BR",
+    "inLanguage": htmlLang[locale],
     "potentialAction": {
       "@type": "SearchAction",
       "target": {
         "@type": "EntryPoint",
-        "urlTemplate": "https://ericmariano.dev/?search={search_term_string}"
+        "urlTemplate": `${localeUrl}?search={search_term_string}`
       },
       "query-input": "required name=search_term_string"
     }
@@ -69,7 +79,7 @@ export function StructuredData() {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
     "name": project.title,
-    "description": project.description,
+    "description": project.description[locale],
     "url": project.link,
     "author": {
       "@type": "Person",
@@ -95,13 +105,13 @@ export function StructuredData() {
         "@type": "ListItem",
         "position": 1,
         "name": "Home",
-        "item": "https://ericmariano.dev"
+        "item": localeUrl
       },
       {
-        "@type": "ListItem", 
+        "@type": "ListItem",
         "position": 2,
-        "name": "Projects",
-        "item": "https://ericmariano.dev#projects"
+        "name": dict.projects.heading,
+        "item": `${localeUrl}#projects`
       }
     ]
   };
