@@ -5,7 +5,7 @@ export const pt: Dictionary = {
     title: "Eric Mariano - Engenheiro de Software & Desenvolvedor",
     titleTemplate: "%s | Eric Mariano",
     description:
-      "Engenheiro de Software e estudante de Ciência da Computação na Universidade Tiradentes. Especializado em JavaScript, Python, IA e desenvolvimento full-stack. Conheça meus projetos e entre em contato.",
+      "Engenheiro de Software e estudante de Ciência da Computação na Universidade Tiradentes. Pesquisador pelo INCT-SiMAI (VHLab).Especializado em JavaScript, Python, IA e desenvolvimento full-stack. Conheça meus projetos e entre em contato.",
     shortDescription:
       "Engenheiro de Software e estudante de Ciência da Computação na Universidade Tiradentes. Especializado em JavaScript, Python, IA e desenvolvimento full-stack.",
     keywords: [
