@@ -20,12 +20,6 @@ export function Header({ locale, dict }: HeaderProps) {
             <div className="flex justify-between items-center w-full">
                 <h1 className="font-instrument-serif md:text-3xl text-xl">{dict.title}</h1>
                 <div className="flex items-center gap-2">
-                    <LanguageSwitcher
-                        locale={locale}
-                        tooltip={dict.language.tooltip}
-                        label={dict.language.label}
-                    />
-
                     <TooltipProvider>
                         <Tooltip>
                             <TooltipTrigger asChild>
@@ -95,12 +89,17 @@ export function Header({ locale, dict }: HeaderProps) {
                             </TooltipContent>
                         </Tooltip>
                     </TooltipProvider>
+
+                    <LanguageSwitcher
+                        locale={locale}
+                        tooltip={dict.language.tooltip}
+                        label={dict.language.label}
+                    />
                 </div>
             </div>
             <Separator />
             <p className="text-[12px] md:text-base text-[#A3A3A3]">
                 {dict.bio.lead}
-                <span className="text-[12px]">{dict.bio.highlight}</span>
                 {dict.bio.tail}
             </p>
         </header>

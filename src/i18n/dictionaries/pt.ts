@@ -34,9 +34,8 @@ export const pt: Dictionary = {
   header: {
     title: "Eric Mariano - Engenheiro de Software",
     bio: {
-      lead: "Atualmente engenheiro de software, estudante de Ciência da Computação e pesquisador no INCT SimAI (Vhlab), focado nos ecossistemas javascript e python",
-      highlight: "(IA)",
-      tail: ", técnicas de RAG, IA e.",
+      lead: "Atualmente arquiteto e engenheiro de software, estudante de Ciência da Computação e pesquisador no INCT SimAI (Vhlab), focado em",
+      tail: " técnicas de RAG, Soluções de IA e Apps mobile.",
     },
     github: { tooltip: "Me dê uma estrela no GitHub", label: "GitHub do Eric Mariano" },
     linkedin: { tooltip: "Me siga no LinkedIn", label: "LinkedIn do Eric Mariano" },
