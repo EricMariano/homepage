@@ -35,6 +35,15 @@ export const projects: Project[] = [
             en: "Personal finance management system",
         },
         status: { pt: "(refatorando)", en: "(refactoring)" },
+        title: "HackHub",
+        description: "Hackathon management app",
+        status: "(done)",
+        link: "https://hackhub-mocha.vercel.app/"
+    },
+    {
+        title: "MeuBolso(mypocket)",
+        description: "Personal finance management system",
+        status: "(refactoring)",
         link: "https://github.com/EricMariano/trackmymoney-front.git"
     },
     {
