@@ -32,7 +32,9 @@ export const pt: Dictionary = {
     mainContent: "Conteúdo principal",
   },
   header: {
-    title: "Eric Mariano - Engenheiro de Software",
+    duckAlt: "Ilustração de um pato desenhado à mão digitando em um laptop",
+    name: "Eric Mariano",
+    roles: ["Engenheiro de Software", "Pesquisador", "Arquiteto de Soluções"],
     bio: {
       lead: "Atualmente arquiteto e engenheiro de software, estudante de Ciência da Computação e pesquisador no INCT SimAI (Vhlab), focado em",
       tail: " técnicas de RAG, Soluções de IA e Apps mobile.",

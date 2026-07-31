@@ -113,14 +113,23 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+/* Page-transition morph (View Transitions API; ignored by browsers without support) */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 250ms;
+  animation-timing-function: ease;
+}
+
+::view-transition-group(goose) {
+  animation-duration: 450ms;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-[#efefef] text-foreground;
+    @apply bg-[#E9E4D2] text-foreground;
   }
-  /* body {
-    @apply bg-[#F3E8C7] text-foreground;
-  } */
 }

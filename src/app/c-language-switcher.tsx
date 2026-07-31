@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { Link } from "next-view-transitions";
 import { usePathname } from "next/navigation";
 import { Languages } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
@@ -36,7 +36,7 @@ export function LanguageSwitcher({ locale, tooltip, label }: LanguageSwitcherPro
                         hrefLang={target}
                         lang={target}
                     >
-                        <Languages className="w-4.5 h-4.5 mt-1 text-[#A3A3A3] hover:text-[#878787] transition-colors duration-200" strokeWidth={1.8} />
+                        <Languages className="w-4.5 h-4.5 mt-1 text-[#8A8578] hover:text-[#1B475E] transition-colors duration-200" strokeWidth={1.8} />
                     </Link>
                 </TooltipTrigger>
                 <TooltipContent>

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { ViewTransitions } from "next-view-transitions";
 import { Inter, Instrument_Serif } from "next/font/google";
 import "../globals.css";
 import { StructuredData } from "@/components/structured-data";
@@ -93,17 +94,19 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
   if (!isLocale(locale)) notFound();
 
   return (
-    <html lang={htmlLang[locale]}>
-      <head>
-        <StructuredData locale={locale} />
-      </head>
-      <body
-        className={`${inter.variable} ${instrumentSerif.variable} antialiased`}
-        suppressHydrationWarning
-      >
-        {children}
-        <Analytics />
-      </body>
-    </html>
+    <ViewTransitions>
+      <html lang={htmlLang[locale]}>
+        <head>
+          <StructuredData locale={locale} />
+        </head>
+        <body
+          className={`${inter.variable} ${instrumentSerif.variable} antialiased`}
+          suppressHydrationWarning
+        >
+          {children}
+          <Analytics />
+        </body>
+      </html>
+    </ViewTransitions>
   );
 }

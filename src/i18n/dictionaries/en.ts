@@ -29,7 +29,9 @@ export const en = {
     mainContent: "Main content",
   },
   header: {
-    title: "Eric Mariano - Software Engineer",
+    duckAlt: "Hand-drawn illustration of a duck typing on a laptop",
+    name: "Eric Mariano",
+    roles: ["Software Engineer", "Researcher", "Solutions Architect"],
     bio: {
       lead: "Currently a architect and software engineer, computer science student and researcher at INCT SimAI (Vhlab), focused on",
       tail: " RAG techniques, AI solutions and Mobile apps.",

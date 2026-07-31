@@ -16,7 +16,7 @@ export const projects: Project[] = [
             pt: "Chatbot baseado em RAG para gestão de políticas",
             en: "Rag based chatbot for policy management",
         },
-        status: { pt: "(concluído)", en: "(done)" },
+        status: { pt: "concluído", en: "done" },
         link: "https://github.com/EricMariano/chat-policy-backend"
     },
     {
@@ -25,16 +25,16 @@ export const projects: Project[] = [
             pt: "Aplicação para gestão de hackathons",
             en: "Hackathon management app",
         },
-        status: { pt: "(concluído)", en: "(done)" },
+        status: { pt: "concluído", en: "done" },
         link: "https://hackhub-mocha.vercel.app/"
     },
     {
-        title: "MeuBolso(mypocket)",
+        title: "MeuBolso (mypocket)",
         description: {
             pt: "Sistema de gestão de finanças pessoais",
             en: "Personal finance management system",
         },
-        status: { pt: "(refatorando)", en: "(refactoring)" },
+        status: { pt: "refatorando", en: "refactoring" },
         link: "https://github.com/EricMariano/trackmymoney-front.git"
     },
     {
@@ -43,7 +43,7 @@ export const projects: Project[] = [
             pt: "Aplicação para gestão de uma confeitaria",
             en: "Application for managing a confectionery business",
         },
-        status: { pt: "(pausado)", en: "(paused)" },
+        status: { pt: "pausado", en: "paused" },
         link: "https://github.com/EricMariano/gestao-de-confeitaria-v2"
     },
     {
@@ -52,7 +52,7 @@ export const projects: Project[] = [
             pt: "Simulador do campeonato brasileiro de futebol",
             en: "Brazilian football championship simulator",
         },
-        status: { pt: "(meu primeiro projeto)", en: "(my first project)" },
+        status: { pt: "meu primeiro projeto", en: "my first project" },
         link: "https://github.com/EricMariano/SimuladorBrasileirao"
     },
 ];
