@@ -20,10 +20,10 @@ export default async function Home({ params }: HomeProps) {
 
   return (
     <div
-      className="flex h-full min-h-screen w-full md:flex-col md:items-center"
+      className="flex h-full min-h-screen w-full flex-col items-center"
       suppressHydrationWarning
     >
-      <div className="mx-6 flex h-full min-h-screen w-full flex-col sm:mx-0 sm:w-[30rem] md:w-[40rem]">
+      <div className="flex h-full min-h-screen w-full max-w-[43rem] flex-col px-6">
         <div className="flex items-center justify-between pt-16 sm:pb-4 sm:pt-20">
           <Header locale={locale} dict={dict.header} />
         </div>
