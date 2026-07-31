@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Github, Mail, Linkedin } from "lucide-react";
 import LogoX from "@/assets/logo-x";
 import { LanguageSwitcher } from "./c-language-switcher";
@@ -14,6 +13,51 @@ import type { Dictionary } from "@/i18n";
 interface HeaderProps {
     locale: Locale;
     dict: Dictionary["header"];
+}
+
+interface SocialCardProps {
+    href: string;
+    label: string;
+    name: string;
+    handle: string;
+    cta: string;
+    ctaIcon: React.ReactNode;
+    external?: boolean;
+    children: React.ReactNode;
+}
+
+function SocialCard({ href, label, name, handle, cta, ctaIcon, external = true, children }: SocialCardProps) {
+    const externalProps = external ? { target: "_blank", rel: "noopener noreferrer" } : {};
+    return (
+        <div className="group relative">
+            <Link href={href} aria-label={label} {...externalProps}>
+                {children}
+            </Link>
+            <div className="pointer-events-none invisible absolute right-0 top-full z-50 hidden translate-y-1 pt-2 opacity-0 transition-all duration-200 ease-out group-hover:pointer-events-auto group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 sm:block">
+                <a
+                    href={href}
+                    {...externalProps}
+                    className="flex w-56 flex-col gap-2.5 rounded-xl border border-[#DAD4C0] bg-[#F2EEE0] p-4 shadow-sm"
+                >
+                    <Image
+                        src="/goosefella.png"
+                        alt=""
+                        width={44}
+                        height={40}
+                        className="mix-blend-darken"
+                    />
+                    <div>
+                        <p className="font-instrument-serif text-lg leading-tight">{name}</p>
+                        <p className="text-xs text-[#7A7568] break-all">{handle}</p>
+                    </div>
+                    <span className="mt-0.5 inline-flex w-fit items-center gap-1.5 rounded-full bg-[#1B475E] px-3 py-1 text-xs text-[#F2EEE0]">
+                        {ctaIcon}
+                        {cta}
+                    </span>
+                </a>
+            </div>
+        </div>
+    );
 }
 
 function RoleMorph({ roles }: { roles: readonly string[] }) {
@@ -60,75 +104,50 @@ export function Header({ locale, dict }: HeaderProps) {
                     <RoleMorph roles={dict.roles} />
                 </div>
                 <div className="flex items-center gap-2 sm:pb-1.5">
-                    <TooltipProvider>
-                        <Tooltip>
-                            <TooltipTrigger asChild>
-                                <Link
-                                    href="https://github.com/ericmariano"
-                                    target="_blank"
-                                    aria-label={dict.github.label}
-                                    rel="noopener noreferrer"
-                                >
-                                    <Github className="w-4.5 h-4.5 mt-1 text-[#8A8578] hover:text-[#1B475E] transition-colors duration-200" strokeWidth={1.8} />
-                                </Link>
-                            </TooltipTrigger>
-                            <TooltipContent>
-                                <p>{dict.github.tooltip}</p>
-                            </TooltipContent>
-                        </Tooltip>
-                    </TooltipProvider>
+                    <SocialCard
+                        href="https://github.com/ericmariano"
+                        label={dict.github.label}
+                        name={dict.name}
+                        handle="github.com/ericmariano"
+                        cta={dict.github.tooltip}
+                        ctaIcon={<Github className="h-3 w-3" strokeWidth={2} />}
+                    >
+                        <Github className="w-4.5 h-4.5 mt-1 text-[#8A8578] group-hover:text-[#1B475E] transition-colors duration-200" strokeWidth={1.8} />
+                    </SocialCard>
 
-                    <TooltipProvider>
-                        <Tooltip>
-                            <TooltipTrigger asChild>
-                                <Link
-                                    href="https://www.linkedin.com/in/ericbfmariano/"
-                                    target="_blank"
-                                    aria-label={dict.linkedin.label}
-                                    rel="noopener noreferrer"
-                                >
-                                    <Linkedin className="w-4.5 h-5 mt-1 text-[#8A8578] hover:text-[#1B475E] transition-colors duration-200" strokeWidth={1.6} />
-                                </Link>
-                            </TooltipTrigger>
-                            <TooltipContent>
-                                <p>{dict.linkedin.tooltip}</p>
-                            </TooltipContent>
-                        </Tooltip>
-                    </TooltipProvider>
+                    <SocialCard
+                        href="https://www.linkedin.com/in/ericbfmariano/"
+                        label={dict.linkedin.label}
+                        name={dict.name}
+                        handle="in/ericbfmariano"
+                        cta={dict.linkedin.tooltip}
+                        ctaIcon={<Linkedin className="h-3 w-3" strokeWidth={2} />}
+                    >
+                        <Linkedin className="w-4.5 h-5 mt-1 text-[#8A8578] group-hover:text-[#1B475E] transition-colors duration-200" strokeWidth={1.6} />
+                    </SocialCard>
 
-                    <TooltipProvider>
-                        <Tooltip>
-                            <TooltipTrigger asChild>
-                                <Link
-                                    href="https://x.com/ericmarianodev"
-                                    target="_blank"
-                                    aria-label={dict.x.label}
-                                    rel="noopener noreferrer"
-                                >
-                                    <LogoX />
-                                </Link>
-                            </TooltipTrigger>
-                            <TooltipContent>
-                                <p>{dict.x.tooltip}</p>
-                            </TooltipContent>
-                        </Tooltip>
-                    </TooltipProvider>
+                    <SocialCard
+                        href="https://x.com/ericmarianodev"
+                        label={dict.x.label}
+                        name={dict.name}
+                        handle="@ericmarianodev"
+                        cta={dict.x.tooltip}
+                        ctaIcon={<LogoX className="h-3 w-3" pathClassName="fill-[#F2EEE0]" />}
+                    >
+                        <LogoX pathClassName="fill-[#8A8578] group-hover:fill-[#1B475E] transition-colors duration-200" />
+                    </SocialCard>
 
-                    <TooltipProvider>
-                        <Tooltip>
-                            <TooltipTrigger asChild>
-                                <Link
-                                    href="mailto:ericbfmariano@gmail.com"
-                                    aria-label={dict.email.label}
-                                >
-                                    <Mail className="w-4.5 h-4.5 mt-1 text-[#8A8578] hover:text-[#1B475E] transition-colors duration-200" strokeWidth={1.8} />
-                                </Link>
-                            </TooltipTrigger>
-                            <TooltipContent>
-                                <p>{dict.email.tooltip}</p>
-                            </TooltipContent>
-                        </Tooltip>
-                    </TooltipProvider>
+                    <SocialCard
+                        href="mailto:ericbfmariano@gmail.com"
+                        label={dict.email.label}
+                        name={dict.name}
+                        handle="ericbfmariano@gmail.com"
+                        cta={dict.email.tooltip}
+                        ctaIcon={<Mail className="h-3 w-3" strokeWidth={2} />}
+                        external={false}
+                    >
+                        <Mail className="w-4.5 h-4.5 mt-1 text-[#8A8578] group-hover:text-[#1B475E] transition-colors duration-200" strokeWidth={1.8} />
+                    </SocialCard>
 
                     <LanguageSwitcher
                         locale={locale}
