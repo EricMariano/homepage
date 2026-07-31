@@ -79,9 +79,6 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       creator: "@ericmarianodev",
       images: ["/og-image.jpg"],
     },
-    verification: {
-      google: "your-google-verification-code", // Substitua pelo seu código do Google Search Console
-    },
     alternates: {
       canonical: `${SITE_URL}/${locale}`,
       languages: languageAlternates(),

@@ -1,6 +1,6 @@
 import { defaultLocale, htmlLang, locales } from "@/i18n/config";
 
-export const SITE_URL = "https://ericmariano-homepage.vercel.app";
+export const SITE_URL = "https://www.ericmariano.com.br";
 
 /** hreflang map for `metadata.alternates.languages`. */
 export function languageAlternates(pathname = ""): Record<string, string> {

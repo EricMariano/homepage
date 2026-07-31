@@ -5,8 +5,8 @@ import { ArrowLeft } from 'lucide-react'
 import { getPostBySlug, getAllPostParams } from '@/lib/posts'
 import { LanguageSwitcher } from '@/app/c-language-switcher'
 import { getDictionary } from '@/i18n'
-import { htmlLang, isLocale } from '@/i18n/config'
-import { languageAlternates } from '@/lib/site'
+import { htmlLang, isLocale, openGraphLocale } from '@/i18n/config'
+import { SITE_URL, languageAlternates } from '@/lib/site'
 
 interface PostPageProps {
   params: Promise<{
@@ -34,8 +34,23 @@ export default async function PostPage({ params }: PostPageProps) {
     ? post.content.split(/\n\n+/).map((p) => p.trim()).filter(Boolean)
     : []
 
+  const postSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: post.title,
+    description: post.excerpt || post.title,
+    url: `${SITE_URL}/${locale}/posts/${slug}`,
+    inLanguage: htmlLang[locale],
+    author: { '@type': 'Person', name: 'Eric Mariano', url: SITE_URL },
+    ...(post.publishedAt ? { datePublished: post.publishedAt } : {}),
+  }
+
   return (
     <div className="mx-auto flex w-full max-w-[40rem] flex-col items-start gap-6 px-6 py-12 md:py-16">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(postSchema) }}
+      />
       <div className="mb-2 flex w-full items-center justify-between">
         <Link
           href={`/${locale}`}
@@ -96,11 +111,32 @@ export async function generateMetadata({ params }: PostPageProps) {
   const post = await getPostBySlug(slug, locale)
   if (!post) return { title: dict.post.notFound }
 
+  const url = `${SITE_URL}/${locale}/posts/${slug}`
+  const description = post.excerpt || post.title
+
   return {
     title: post.title,
-    description: post.excerpt || post.title,
+    description,
     alternates: {
+      canonical: url,
       languages: languageAlternates(`/posts/${slug}`),
+    },
+    openGraph: {
+      type: 'article',
+      locale: openGraphLocale[locale],
+      url,
+      siteName: 'Eric Mariano',
+      title: post.title,
+      description,
+      images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: post.title }],
+      ...(post.publishedAt ? { publishedTime: post.publishedAt } : {}),
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: post.title,
+      description,
+      creator: '@ericmarianodev',
+      images: ['/og-image.jpg'],
     },
   }
 }

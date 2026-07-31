@@ -33,7 +33,7 @@ export const en = {
     name: "Eric Mariano",
     roles: ["Software Engineer", "Researcher", "Solutions Architect"],
     bio: {
-      lead: "Currently a architect and software engineer, computer science student and researcher at INCT SimAI (Vhlab), focused on",
+      lead: "Currently an architect and software engineer, computer science student and researcher at INCT SimAI (Vhlab), focused on",
       tail: " RAG techniques, AI solutions and Mobile apps.",
     },
     github: { tooltip: "Star me on GitHub", label: "Eric Mariano's GitHub" },

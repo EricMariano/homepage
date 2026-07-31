@@ -1,4 +1,3 @@
-import { projects } from "@/app/v-projects-list";
 import { getDictionary } from "@/i18n";
 import { htmlLang, type Locale } from "@/i18n/config";
 import { SITE_URL } from "@/lib/site";
@@ -17,18 +16,14 @@ export function StructuredData({ locale }: StructuredDataProps) {
     "name": "Eric Mariano",
     "alternateName": "Eric BF Mariano",
     "description": dict.metadata.shortDescription,
-    "url": "https://ericmariano.dev",
-    "image": "https://ericmariano.dev/og-image.jpg",
+    "url": SITE_URL,
+    "image": `${SITE_URL}/og-image.jpg`,
     "sameAs": [
       "https://github.com/ericmariano",
       "https://www.linkedin.com/in/ericbfmariano/",
       "https://x.com/ericmarianodev"
     ],
     "jobTitle": "Software Engineer",
-    "worksFor": {
-      "@type": "EducationalOrganization",
-      "name": "Universidade Tiradentes"
-    },
     "alumniOf": {
       "@type": "EducationalOrganization",
       "name": "Universidade Tiradentes"
@@ -44,10 +39,6 @@ export function StructuredData({ locale }: StructuredDataProps) {
       "Computer Science"
     ],
     "email": "ericbfmariano@gmail.com",
-    "address": {
-      "@type": "PostalAddress",
-      "addressCountry": "BR"
-    },
     "nationality": {
       "@type": "Country",
       "name": "Brazil"
@@ -64,59 +55,10 @@ export function StructuredData({ locale }: StructuredDataProps) {
       "@type": "Person",
       "name": "Eric Mariano"
     },
-    "inLanguage": htmlLang[locale],
-    "potentialAction": {
-      "@type": "SearchAction",
-      "target": {
-        "@type": "EntryPoint",
-        "urlTemplate": `${localeUrl}?search={search_term_string}`
-      },
-      "query-input": "required name=search_term_string"
-    }
+    "inLanguage": htmlLang[locale]
   };
 
-  const projectsSchema = projects.map((project) => ({
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": project.title,
-    "description": project.description[locale],
-    "url": project.link,
-    "author": {
-      "@type": "Person",
-      "name": "Eric Mariano"
-    },
-    "applicationCategory": "DeveloperApplication",
-    "operatingSystem": "Web Browser",
-    "programmingLanguage": ["JavaScript", "Python"],
-    "dateCreated": "2023", // Ajuste conforme necessário
-    "isAccessibleForFree": true,
-    "offers": {
-      "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "USD"
-    }
-  }));
-
-  const breadcrumbSchema = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      {
-        "@type": "ListItem",
-        "position": 1,
-        "name": "Home",
-        "item": localeUrl
-      },
-      {
-        "@type": "ListItem",
-        "position": 2,
-        "name": dict.projects.heading,
-        "item": `${localeUrl}#projects`
-      }
-    ]
-  };
-
-  const allSchemas = [personSchema, websiteSchema, ...projectsSchema, breadcrumbSchema];
+  const allSchemas = [personSchema, websiteSchema];
 
   return (
     <script

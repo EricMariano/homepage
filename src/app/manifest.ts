@@ -4,11 +4,11 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: 'Eric Mariano - Software Engineer & Developer',
     short_name: 'Eric Mariano',
-    description: 'Portfolio pessoal de Eric Mariano, Software Engineer e estudante de Ciência da Computação na Universidade Tiradentes.',
-    start_url: '/pt',
+    description: 'Personal site of Eric Mariano, software engineer, researcher and computer science student.',
+    start_url: '/en',
     display: 'standalone',
-    background_color: '#ffffff',
-    theme_color: '#000000',
+    background_color: '#E9E4D2',
+    theme_color: '#1B475E',
     orientation: 'portrait-primary',
     icons: [
       {
@@ -22,15 +22,10 @@ export default function manifest(): MetadataRoute.Manifest {
         sizes: '512x512',
         type: 'image/png',
         purpose: 'maskable'
-      },
-      {
-        src: '/apple-touch-icon.png',
-        sizes: '180x180',
-        type: 'image/png'
       }
     ],
     categories: ['portfolio', 'developer', 'software', 'education'],
-    lang: 'pt-BR',
+    lang: 'en-US',
     scope: '/',
     prefer_related_applications: false
   }
