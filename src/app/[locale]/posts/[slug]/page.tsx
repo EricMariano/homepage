@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation'
 import { ArrowLeft } from 'lucide-react'
 import { getPostBySlug, getAllPostParams } from '@/lib/posts'
 import { LanguageSwitcher } from '@/app/c-language-switcher'
+import { Markdown } from '@/app/c-markdown'
 import { getDictionary } from '@/i18n'
 import { htmlLang, isLocale, openGraphLocale } from '@/i18n/config'
 import { SITE_URL, languageAlternates } from '@/lib/site'
@@ -29,10 +30,6 @@ export default async function PostPage({ params }: PostPageProps) {
   if (!post) {
     notFound()
   }
-
-  const paragraphs = post.content
-    ? post.content.split(/\n\n+/).map((p) => p.trim()).filter(Boolean)
-    : []
 
   const postSchema = {
     '@context': 'https://schema.org',
@@ -92,13 +89,7 @@ export default async function PostPage({ params }: PostPageProps) {
           )}
         </div>
       </header>
-      <div className="flex flex-col gap-4 font-sans text-[15px] leading-[1.7] text-[#33312A]">
-        {paragraphs.map((para, i) => (
-          <p key={i} className="whitespace-pre-line">
-            {para}
-          </p>
-        ))}
-      </div>
+      <Markdown>{post.content}</Markdown>
     </div>
   )
 }
