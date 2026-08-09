@@ -3,7 +3,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import dynamic from 'next/dynamic'
 import type { BlockNoteEditor } from '@blocknote/core'
-import { Download, ExternalLink, FileText, Loader2, Plus } from 'lucide-react'
+import Link from 'next/link'
+import { Download, ExternalLink, FileText, Images, Loader2, Plus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -109,6 +110,13 @@ export function Composer({ posts }: { posts: EditablePost[] }) {
           <Plus className="h-4 w-4" />
           Novo post
         </button>
+        <Link
+          href="/md/post"
+          className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-[#66625A] transition-colors hover:bg-[#EBE7D9] hover:text-[#1B475E]"
+        >
+          <Images className="h-4 w-4" />
+          Post builder
+        </Link>
         <nav className="flex flex-col gap-1">
           {posts.map((post) => (
             <button
