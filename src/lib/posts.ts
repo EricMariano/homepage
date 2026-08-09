@@ -95,6 +95,54 @@ export async function getPostBySlug(slug: string, locale: Locale = defaultLocale
   }
 }
 
+/**
+ * A single file on disk. `suffix` is the locale in `<slug>.<locale>.md`, or
+ * `null` for a bare `<slug>.md` — which the fallback in `resolvePostPath`
+ * serves for every locale.
+ */
+export interface PostFile {
+  slug: string
+  suffix: Locale | null
+  filename: string
+}
+
+/** Every post file on disk, for the editor's listing. */
+export function getPostFiles(): PostFile[] {
+  if (!fs.existsSync(postsDirectory)) return []
+  return fs
+    .readdirSync(postsDirectory)
+    .filter((f) => /\.(mdx?|md)$/.test(f))
+    .map((filename) => {
+      const withoutExtension = filename.replace(/\.(mdx?|md)$/, '')
+      const localeSuffix = withoutExtension.match(/\.(\w+)$/)?.[1]
+      const suffix = localeSuffix && isLocale(localeSuffix) ? localeSuffix : null
+      return { slug: getSlugFromFilename(filename), suffix, filename }
+    })
+    .sort((a, b) => a.filename.localeCompare(b.filename))
+}
+
+/**
+ * Reads one exact file, without the locale fallback — the editor opens the file
+ * you picked, never a stand-in for a translation that doesn't exist yet.
+ */
+export function getPostFile(slug: string, suffix: Locale | null): Post | null {
+  const basename = suffix ? `${slug}.${suffix}` : slug
+  for (const ext of extensions) {
+    const filePath = path.join(postsDirectory, `${basename}${ext}`)
+    if (!fs.existsSync(filePath)) continue
+    const { data, content } = matter(fs.readFileSync(filePath, 'utf-8'))
+    const front = data as PostFrontmatter
+    return {
+      slug,
+      title: front.title ?? '',
+      excerpt: front.excerpt ?? '',
+      publishedAt: normalizePublishedAt(front.publishedAt),
+      content: content.trim(),
+    }
+  }
+  return null
+}
+
 /** Every `{ locale, slug }` pair, for `generateStaticParams`. */
 export function getAllPostParams(): { locale: Locale; slug: string }[] {
   return locales.flatMap((locale) => getAllSlugs().map((slug) => ({ locale, slug })))
