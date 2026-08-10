@@ -32,7 +32,17 @@ const C = {
   codeMuted: '#9A9384',
 } as const
 
-export type TemplateId = 'cover-serif' | 'cover-ink' | 'cover-card' | 'text' | 'list' | 'quote'
+export type TemplateId =
+  | 'cover-serif'
+  | 'cover-ink'
+  | 'cover-card'
+  | 'text'
+  | 'list'
+  | 'quote'
+  // Hand-drawn family: paper grain, drawn rules, the duck as a character.
+  | 'cover-sketch'
+  | 'note'
+  | 'steps'
 
 export interface SlideItem {
   title: string
@@ -68,7 +78,7 @@ export interface DeckMeta {
 export interface DrawEnv {
   serif: string
   sans: string
-  /** White-on-transparent duck mask; tinted per slide. */
+  /** White-on-transparent duck mask, already tinted for this slide. */
   duck: CanvasImageSource | null
   duckAspect: number
 }
@@ -138,6 +148,11 @@ function wrap(
   return lines.length ? lines : [[]]
 }
 
+/**
+ * `onEm` reports the box of each accented run — consecutive `<em>` words merge
+ * into one call, so an underline drawn from it spans the phrase instead of
+ * breaking at every space.
+ */
 function drawLines(
   ctx: CanvasRenderingContext2D,
   lines: Line[],
@@ -147,19 +162,30 @@ function drawLines(
   lineHeight: number,
   fontFor: (em: boolean) => string,
   colorFor: (em: boolean) => string,
+  onEm?: (x: number, top: number, width: number, size: number) => void,
 ) {
   ctx.textBaseline = 'top'
   lines.forEach((line, i) => {
     // CSS puts the extra leading half above and half below the glyphs.
     let cursor = x
     const y = top + i * lineHeight + (lineHeight - size) / 2
+    let runStart = -1
+    let runEnd = 0
     line.forEach((word, j) => {
       ctx.font = fontFor(word.em)
       ctx.fillStyle = colorFor(word.em)
       if (j > 0) cursor += ctx.measureText(' ').width
       ctx.fillText(word.text, cursor, y)
+      if (word.em) {
+        if (runStart < 0) runStart = cursor
+        runEnd = cursor + word.w
+      } else if (runStart >= 0) {
+        onEm?.(runStart, y, runEnd - runStart, size)
+        runStart = -1
+      }
       cursor += word.w
     })
+    if (runStart >= 0) onEm?.(runStart, y, runEnd - runStart, size)
   })
 }
 
@@ -178,13 +204,24 @@ function richBlock(
     lineHeight: number
     font: (em: boolean) => string
     color: (em: boolean) => string
+    onEm?: (x: number, top: number, width: number, size: number) => void
   },
 ): TextBlock {
   const lines = wrap(ctx, parseRich(src), opts.maxWidth, opts.font)
   return {
     h: lines.length * opts.lineHeight,
     draw: (top) =>
-      drawLines(ctx, lines, opts.x, top, opts.size, opts.lineHeight, opts.font, opts.color),
+      drawLines(
+        ctx,
+        lines,
+        opts.x,
+        top,
+        opts.size,
+        opts.lineHeight,
+        opts.font,
+        opts.color,
+        opts.onEm,
+      ),
   }
 }
 
@@ -220,6 +257,175 @@ function centerStack(
     block.draw(y)
     y += block.h
   }
+}
+
+// -------------------------------------------------------------- rough ------
+//
+// The geometric 1px rules never sat right next to a crayon drawing. These draw
+// the same furniture with a hand's worth of tremble, seeded off the slide id so
+// a repaint reproduces the exact same wobble — otherwise every keystroke would
+// redraw a different line and the preview would crawl.
+
+type Rand = () => number
+
+function seededRand(key: string): Rand {
+  let h = 2166136261
+  for (let i = 0; i < key.length; i += 1) {
+    h ^= key.charCodeAt(i)
+    h = Math.imul(h, 16777619)
+  }
+  let a = h >>> 0
+  return () => {
+    a = (a + 0x6d2b79f5) | 0
+    let t = Math.imul(a ^ (a >>> 15), 1 | a)
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296
+  }
+}
+
+/** Smooths a jittered polyline through the midpoints so it reads drawn, not zigzagged. */
+function strokePath(ctx: CanvasRenderingContext2D, pts: { x: number; y: number }[]) {
+  ctx.beginPath()
+  ctx.moveTo(pts[0].x, pts[0].y)
+  for (let i = 1; i < pts.length - 1; i += 1) {
+    const mx = (pts[i].x + pts[i + 1].x) / 2
+    const my = (pts[i].y + pts[i + 1].y) / 2
+    ctx.quadraticCurveTo(pts[i].x, pts[i].y, mx, my)
+  }
+  const last = pts[pts.length - 1]
+  ctx.lineTo(last.x, last.y)
+  ctx.stroke()
+}
+
+interface RoughOpts {
+  color: string
+  width?: number
+  wobble?: number
+  /** A second lighter pass, the way a pencil doubles back over a line. */
+  passes?: number
+  alpha?: number
+}
+
+function roughLine(
+  ctx: CanvasRenderingContext2D,
+  rand: Rand,
+  x1: number,
+  y1: number,
+  x2: number,
+  y2: number,
+  opts: RoughOpts,
+) {
+  const len = Math.hypot(x2 - x1, y2 - y1)
+  if (len < 1) return
+  const steps = Math.max(3, Math.round(len / 46))
+  const nx = -(y2 - y1) / len
+  const ny = (x2 - x1) / len
+  const wobble = opts.wobble ?? 1.8
+
+  ctx.save()
+  ctx.strokeStyle = opts.color
+  ctx.lineCap = 'round'
+  ctx.lineJoin = 'round'
+  const passes = opts.passes ?? 2
+  for (let p = 0; p < passes; p += 1) {
+    ctx.lineWidth = (opts.width ?? 2.2) * (p === 0 ? 1 : 0.65)
+    ctx.globalAlpha = (opts.alpha ?? 1) * (p === 0 ? 1 : 0.45)
+    const pts = []
+    for (let i = 0; i <= steps; i += 1) {
+      const t = i / steps
+      // Ends stay put so joins and alignments hold; the middle is free to drift.
+      const damp = Math.sin(Math.PI * t)
+      const w = (rand() - 0.5) * 2 * wobble * damp
+      pts.push({ x: x1 + (x2 - x1) * t + nx * w, y: y1 + (y2 - y1) * t + ny * w })
+    }
+    strokePath(ctx, pts)
+  }
+  ctx.restore()
+}
+
+function roughRect(
+  ctx: CanvasRenderingContext2D,
+  rand: Rand,
+  x: number,
+  y: number,
+  w: number,
+  h: number,
+  opts: RoughOpts,
+) {
+  // Corners overshoot slightly, the way a hand-drawn box never quite closes.
+  const o = () => (rand() - 0.5) * 10
+  roughLine(ctx, rand, x + o(), y, x + w + o(), y, opts)
+  roughLine(ctx, rand, x + w, y + o(), x + w, y + h + o(), opts)
+  roughLine(ctx, rand, x + w + o(), y + h, x + o(), y + h, opts)
+  roughLine(ctx, rand, x, y + h + o(), x, y + o(), opts)
+}
+
+function roughEllipse(
+  ctx: CanvasRenderingContext2D,
+  rand: Rand,
+  cx: number,
+  cy: number,
+  rx: number,
+  ry: number,
+  opts: RoughOpts,
+) {
+  ctx.save()
+  ctx.strokeStyle = opts.color
+  ctx.lineCap = 'round'
+  const passes = opts.passes ?? 2
+  for (let p = 0; p < passes; p += 1) {
+    ctx.lineWidth = (opts.width ?? 2.2) * (p === 0 ? 1 : 0.65)
+    ctx.globalAlpha = (opts.alpha ?? 1) * (p === 0 ? 1 : 0.45)
+    // Overshooting past a full turn closes the loop the way a circled word does.
+    const start = rand() * Math.PI * 2
+    const sweep = Math.PI * 2 + 0.35 + rand() * 0.3
+    const steps = 26
+    const pts = []
+    for (let i = 0; i <= steps; i += 1) {
+      const a = start + (sweep * i) / steps
+      const wob = 1 + (rand() - 0.5) * 0.055
+      pts.push({ x: cx + Math.cos(a) * rx * wob, y: cy + Math.sin(a) * ry * wob })
+    }
+    strokePath(ctx, pts)
+  }
+  ctx.restore()
+}
+
+/**
+ * Paper grain. Built once as a small tile and repeated — per-pixel noise over
+ * the full 1080x1350 on every keystroke would stall the preview. Lazily built
+ * so the module stays importable during server rendering.
+ */
+let grainTile: HTMLCanvasElement | null = null
+
+function paintGrain(ctx: CanvasRenderingContext2D, alpha: number) {
+  if (!grainTile) {
+    const size = 160
+    const tile = document.createElement('canvas')
+    tile.width = size
+    tile.height = size
+    const tctx = tile.getContext('2d')
+    if (!tctx) return
+    const data = tctx.createImageData(size, size)
+    const rand = seededRand('grain')
+    for (let i = 0; i < data.data.length; i += 4) {
+      const v = rand()
+      data.data[i] = 60
+      data.data[i + 1] = 52
+      data.data[i + 2] = 36
+      // Sparse, faint specks read as fibre; anything denser reads as static.
+      data.data[i + 3] = v > 0.88 ? Math.round((v - 0.88) * 8.33 * 70) : 0
+    }
+    tctx.putImageData(data, 0, 0)
+    grainTile = tile
+  }
+  const pattern = ctx.createPattern(grainTile, 'repeat')
+  if (!pattern) return
+  ctx.save()
+  ctx.globalAlpha = alpha
+  ctx.fillStyle = pattern
+  ctx.fillRect(0, 0, SLIDE_W, SLIDE_H)
+  ctx.restore()
 }
 
 // ------------------------------------------------------------ painting -----
@@ -276,9 +482,19 @@ function drawDuck(
   x: number,
   y: number,
   width: number,
+  flip = false,
 ) {
   if (!env.duck) return
-  ctx.drawImage(env.duck, x, y, width, width / env.duckAspect)
+  const height = width / env.duckAspect
+  if (!flip) {
+    ctx.drawImage(env.duck, x, y, width, height)
+    return
+  }
+  ctx.save()
+  ctx.translate(x + width, y)
+  ctx.scale(-1, 1)
+  ctx.drawImage(env.duck, 0, 0, width, height)
+  ctx.restore()
 }
 
 /** Eyebrow: spaced small caps above the headline. Returns its height. */
@@ -322,7 +538,15 @@ function drawFooter(
   ctx: CanvasRenderingContext2D,
   env: DrawEnv,
   meta: DeckMeta,
-  opts: { x?: number; right?: number; bottom?: number; dark?: boolean; ruleColor?: string } = {},
+  opts: {
+    x?: number
+    right?: number
+    bottom?: number
+    dark?: boolean
+    ruleColor?: string
+    /** Draws the rule as a hand stroke instead of a hairline. */
+    rand?: Rand
+  } = {},
 ): number {
   const x = opts.x ?? PAD_X
   const right = opts.right ?? SLIDE_W - PAD_X
@@ -331,8 +555,13 @@ function drawFooter(
   const rowTop = bottom - rowH
   const ruleY = rowTop - 26
 
-  ctx.fillStyle = opts.ruleColor ?? (opts.dark ? 'rgba(242,238,224,0.22)' : C.rule)
-  ctx.fillRect(x, ruleY, right - x, 1)
+  const ruleColor = opts.ruleColor ?? (opts.dark ? 'rgba(242,238,224,0.22)' : C.rule)
+  if (opts.rand) {
+    roughLine(ctx, opts.rand, x, ruleY, right, ruleY, { color: C.rule, width: 2, alpha: 0.85 })
+  } else {
+    ctx.fillStyle = ruleColor
+    ctx.fillRect(x, ruleY, right - x, 1)
+  }
 
   drawDuck(ctx, env, x, rowTop, rowH)
 
@@ -360,7 +589,7 @@ function drawHintFooter(
   ctx: CanvasRenderingContext2D,
   env: DrawEnv,
   meta: DeckMeta,
-  opts: { x?: number; right?: number; bottom?: number; dark?: boolean } = {},
+  opts: { x?: number; right?: number; bottom?: number; dark?: boolean; rand?: Rand } = {},
 ): number {
   const ruleY = drawFooter(ctx, env, { ...meta, total: 1 }, opts)
   if (meta.hint) {
@@ -703,6 +932,195 @@ const contentQuote: DrawFn = (ctx, slide, meta, env) => {
   centerStack(blocks, headTop + 20, footTop - 72)
 }
 
+// --------------------------------------------------- hand-drawn family -----
+
+const coverSketch: DrawFn = (ctx, slide, meta, env) => {
+  const rand = seededRand(slide.id)
+  ctx.fillStyle = C.paper
+  ctx.fillRect(0, 0, SLIDE_W, SLIDE_H)
+  paintGrain(ctx, 0.45)
+
+  const headTop = PAD_TOP + drawEyebrow(ctx, env, slide.eyebrow, PAD_TOP, C.ink)
+  const footTop = drawHintFooter(ctx, env, meta, { rand })
+
+  // The duck stands on the footer rule and runs off the right edge — a
+  // character in the frame rather than a bug in the corner. Mirrored so the
+  // laptop stays in view and it faces back into the headline; the tail is what
+  // gets cropped.
+  const duckW = 620
+  drawDuck(ctx, env, SLIDE_W - duckW + 170, footTop - duckW / env.duckAspect, duckW, true)
+
+  let y = headTop + 96
+  const headline = richBlock(ctx, slide.headline, {
+    x: PAD_X,
+    maxWidth: SLIDE_W - PAD_X * 2,
+    size: 88,
+    lineHeight: 94,
+    font: (em) => font(env.serif, 88, 400, em),
+    color: (em) => (em ? C.ink : C.fg),
+    // The accent gets underscored by hand instead of only changing colour.
+    onEm: (ex, etop, ew, esize) =>
+      roughLine(ctx, rand, ex - 4, etop + esize * 1.06, ex + ew + 4, etop + esize * 1.06, {
+        color: C.ink,
+        width: 3,
+        wobble: 2.4,
+      }),
+  })
+  headline.draw(y)
+  y += headline.h + 46
+
+  plainBlock(ctx, slide.sub, {
+    x: PAD_X,
+    maxWidth: 540,
+    size: 30,
+    lineHeight: 45,
+    font: font(env.sans, 30, 300),
+    color: C.body,
+  }).draw(y)
+}
+
+const contentNote: DrawFn = (ctx, slide, meta, env) => {
+  const rand = seededRand(slide.id)
+  ctx.fillStyle = C.paper
+  ctx.fillRect(0, 0, SLIDE_W, SLIDE_H)
+  paintGrain(ctx, 0.45)
+
+  let y = PAD_TOP + drawKicker(ctx, env, slide.eyebrow, PAD_TOP)
+  const heading = richBlock(ctx, slide.headline, {
+    x: PAD_X,
+    maxWidth: SLIDE_W - PAD_X * 2,
+    size: 64,
+    lineHeight: 71,
+    font: (em) => font(env.serif, 64, 400, em),
+    color: (em) => (em ? C.ink : C.fg),
+  })
+  y += 22
+  heading.draw(y)
+  y += heading.h + 40
+  roughLine(ctx, rand, PAD_X, y, SLIDE_W - PAD_X, y, { color: C.rule, width: 2.4 })
+
+  const footTop = drawFooter(ctx, env, meta, { rand })
+
+  const blocks: { h: number; gap?: number; draw: (top: number) => void }[] = []
+  slide.body
+    .split(/\n\s*\n/)
+    .filter((p) => p.trim())
+    .forEach((text, i) => {
+      const block = plainBlock(ctx, text.replace(/\s*\n\s*/g, ' '), {
+        x: PAD_X,
+        maxWidth: SLIDE_W - PAD_X * 2,
+        size: 32,
+        lineHeight: 52,
+        font: font(env.sans, 32),
+        color: C.prose,
+      })
+      blocks.push({ ...block, gap: i === 0 ? 0 : 30 })
+    })
+
+  if (slide.sub.trim()) {
+    const inner = plainBlock(ctx, slide.sub, {
+      x: PAD_X + 40,
+      maxWidth: SLIDE_W - PAD_X * 2 - 80,
+      size: 30,
+      lineHeight: 44,
+      font: font(env.sans, 30, 400, true),
+      color: C.prose,
+    })
+    const h = inner.h + 56
+    blocks.push({
+      h,
+      gap: blocks.length ? 50 : 0,
+      // Circled by hand, the way you'd ring the important line on a printout.
+      draw: (top) => {
+        roughRect(ctx, rand, PAD_X + 8, top, SLIDE_W - PAD_X * 2 - 16, h, {
+          color: C.ink,
+          width: 2.6,
+          wobble: 2.2,
+        })
+        inner.draw(top + 28)
+      },
+    })
+  }
+
+  centerStack(blocks, y + 44, footTop - 72)
+}
+
+const contentSteps: DrawFn = (ctx, slide, meta, env) => {
+  const rand = seededRand(slide.id)
+  ctx.fillStyle = C.paper
+  ctx.fillRect(0, 0, SLIDE_W, SLIDE_H)
+  paintGrain(ctx, 0.45)
+
+  let y = PAD_TOP + drawKicker(ctx, env, slide.eyebrow, PAD_TOP)
+  const heading = richBlock(ctx, slide.headline, {
+    x: PAD_X,
+    maxWidth: SLIDE_W - PAD_X * 2,
+    size: 64,
+    lineHeight: 71,
+    font: (em) => font(env.serif, 64, 400, em),
+    color: (em) => (em ? C.ink : C.fg),
+  })
+  y += 22
+  heading.draw(y)
+  y += heading.h
+
+  const footTop = drawFooter(ctx, env, meta, { rand })
+
+  const ringR = 40
+  const textX = PAD_X + ringR * 2 + 34
+  const blocks = slide.items
+    .filter((item) => item.title.trim() || item.description.trim())
+    .map((item, i) => {
+      const title = plainBlock(ctx, item.title, {
+        x: textX,
+        maxWidth: SLIDE_W - PAD_X - textX,
+        size: 36,
+        lineHeight: 44,
+        font: font(env.sans, 36, 500),
+        color: C.fg,
+      })
+      const desc = plainBlock(ctx, item.description, {
+        x: textX,
+        maxWidth: SLIDE_W - PAD_X - textX,
+        size: 28,
+        lineHeight: 42,
+        font: font(env.sans, 28, 300),
+        color: C.body,
+      })
+      const padTop = i === 0 ? 0 : 40
+      const h = padTop + Math.max(title.h + 12 + desc.h, ringR * 2) + 40
+      return {
+        h,
+        draw: (top: number) => {
+          if (i > 0) {
+            roughLine(ctx, rand, PAD_X, top, SLIDE_W - PAD_X, top, {
+              color: C.rule,
+              width: 2,
+              alpha: 0.9,
+            })
+          }
+          const cy = top + padTop + ringR - 4
+          roughEllipse(ctx, rand, PAD_X + ringR, cy, ringR, ringR * 0.92, {
+            color: C.ink,
+            width: 2.6,
+          })
+          ctx.font = font(env.serif, 44)
+          ctx.fillStyle = C.ink
+          ctx.textAlign = 'center'
+          ctx.textBaseline = 'middle'
+          ctx.fillText(String(i + 1), PAD_X + ringR, cy + 3)
+          ctx.textAlign = 'left'
+          ctx.textBaseline = 'top'
+
+          title.draw(top + padTop)
+          desc.draw(top + padTop + title.h + 12)
+        },
+      }
+    })
+
+  centerStack(blocks, y + 24, footTop - 72)
+}
+
 export interface FieldSpec {
   key: 'eyebrow' | 'headline' | 'sub' | 'body' | 'items' | 'codeLabel' | 'code'
   label: string
@@ -789,6 +1207,40 @@ export const TEMPLATES: Record<TemplateId, TemplateSpec> = {
       { key: 'code', label: 'Código', type: 'area', rows: 5, hint: 'Opcional. Linhas com # ficam apagadas; números ganham o azul.' },
     ],
     draw: contentQuote,
+  },
+  'cover-sketch': {
+    label: 'Traço',
+    group: 'Capa',
+    description: 'Papel com grão, o pato em tamanho grande sangrando pela direita.',
+    fields: [
+      { key: 'eyebrow', label: 'Chapéu', type: 'text' },
+      { key: 'headline', label: 'Manchete', type: 'area', rows: 2, hint: `${RICH_HINT} Aqui ele também ganha um risco à mão embaixo.` },
+      { key: 'sub', label: 'Linha de apoio', type: 'area', rows: 2, hint: 'Fica à esquerda do pato — segure em duas linhas.' },
+    ],
+    draw: coverSketch,
+  },
+  note: {
+    label: 'Anotação',
+    group: 'Conteúdo',
+    description: 'Papel com grão, réguas à mão e o destaque circulado.',
+    fields: [
+      { key: 'eyebrow', label: 'Chapéu', type: 'text' },
+      { key: 'headline', label: 'Título', type: 'area', rows: 2, hint: RICH_HINT },
+      { key: 'body', label: 'Parágrafos', type: 'area', rows: 7, hint: 'Linha em branco separa parágrafos.' },
+      { key: 'sub', label: 'Destaque', type: 'area', rows: 2, hint: 'Opcional — vira a caixa desenhada à mão.' },
+    ],
+    draw: contentNote,
+  },
+  steps: {
+    label: 'Passos',
+    group: 'Conteúdo',
+    description: 'Lista com os numerais circulados à mão.',
+    fields: [
+      { key: 'eyebrow', label: 'Chapéu', type: 'text' },
+      { key: 'headline', label: 'Título', type: 'area', rows: 2, hint: RICH_HINT },
+      { key: 'items', label: 'Itens', type: 'text' },
+    ],
+    draw: contentSteps,
   },
 }
 

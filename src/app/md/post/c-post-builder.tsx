@@ -256,7 +256,7 @@ export function PostBuilder({
   const spec = selected ? TEMPLATES[selected.template] : null
 
   return (
-    <div className="mx-auto flex w-full max-w-[92rem] flex-col gap-6 px-6 py-8">
+    <div className="mx-auto flex w-full max-w-[92rem] flex-col gap-6 px-6 py-8 lg:h-screen lg:overflow-hidden">
       <header className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-2">
           <Images className="h-4 w-4 text-[#8A8578]" />
@@ -283,7 +283,7 @@ export function PostBuilder({
         </div>
       </header>
 
-      <div className="grid gap-6 lg:grid-cols-[15rem_minmax(0,1fr)_22rem]">
+      <div className="grid gap-6 lg:min-h-0 lg:flex-1 lg:grid-cols-[15rem_minmax(0,1fr)_22rem]">
         <SlideRail
           slides={slides}
           selectedId={selected?.id ?? null}
@@ -296,7 +296,7 @@ export function PostBuilder({
           ready={fontsReady && Boolean(duck.ink)}
         />
 
-        <section className="flex flex-col items-center gap-3">
+        <section className="flex flex-col items-center justify-center gap-3 lg:min-h-0">
           {selected && (
             <Preview
               slide={selected}
@@ -308,7 +308,7 @@ export function PostBuilder({
           {spec && <p className="text-xs text-[#8A8578]">{spec.description}</p>}
         </section>
 
-        <aside className="flex flex-col gap-5">
+        <aside className="flex flex-col gap-5 lg:min-h-0 lg:overflow-y-auto lg:pr-2 lg:pb-4">
           {selected && spec && (
             <>
               <div className="flex flex-col gap-2">
@@ -501,7 +501,7 @@ function Preview({
       ref={ref}
       role="img"
       aria-label={`Prévia do slide: ${slide.headline.replace(/<\/?em>/g, '') || 'sem título'}`}
-      className="w-full max-w-[26rem] rounded-lg border border-[#DCD6C2] shadow-sm"
+      className="max-h-full w-full max-w-[26rem] rounded-lg border border-[#DCD6C2] object-contain shadow-sm lg:w-auto"
       style={{ aspectRatio: `${SLIDE_W} / ${SLIDE_H}` }}
     />
   )
@@ -529,7 +529,7 @@ function SlideRail({
   ready: boolean
 }) {
   return (
-    <aside className="flex flex-col gap-3">
+    <aside className="flex flex-col gap-3 lg:min-h-0 lg:overflow-y-auto lg:pr-2 lg:pb-4">
       <div className="flex items-center justify-between">
         <span className="text-xs tracking-wide text-[#8A8578] uppercase">Slides</span>
       </div>
