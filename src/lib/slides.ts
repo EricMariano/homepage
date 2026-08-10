@@ -281,7 +281,7 @@ function drawDuck(
   ctx.drawImage(env.duck, x, y, width, width / env.duckAspect)
 }
 
-/** Eyebrow: a short rule then spaced small caps. Returns its height. */
+/** Eyebrow: spaced small caps above the headline. Returns its height. */
 function drawEyebrow(
   ctx: CanvasRenderingContext2D,
   env: DrawEnv,
@@ -291,11 +291,10 @@ function drawEyebrow(
 ): number {
   if (!text) return 0
   ctx.fillStyle = color
-  ctx.fillRect(PAD_X, y + 11, 44, 2)
   ctx.font = font(env.sans, 21, 500)
   ctx.letterSpacing = '3.4px'
   ctx.textBaseline = 'top'
-  ctx.fillText(text, PAD_X + 62, y)
+  ctx.fillText(text, PAD_X, y)
   ctx.letterSpacing = '0px'
   return 24
 }

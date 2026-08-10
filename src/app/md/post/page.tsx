@@ -1,4 +1,4 @@
-import { instrumentSerif, inter } from '../v-fonts'
+import { SANS_CHOICES, SERIF_CHOICES } from '../v-fonts'
 import { PostBuilder } from './c-post-builder'
 
 /**
@@ -6,12 +6,5 @@ import { PostBuilder } from './c-post-builder'
  * runtime — it hands you PNGs — so the route stays static and safe to deploy.
  */
 export default function PostBuilderPage() {
-  return (
-    <PostBuilder
-      fonts={{
-        serif: instrumentSerif.style.fontFamily,
-        sans: inter.style.fontFamily,
-      }}
-    />
-  )
+  return <PostBuilder serifChoices={SERIF_CHOICES} sansChoices={SANS_CHOICES} />
 }

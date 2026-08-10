@@ -32,6 +32,12 @@ interface Fonts {
   sans: string
 }
 
+interface FontChoice {
+  id: string
+  label: string
+  family: string
+}
+
 /** Recolours the duck mask; the asset ships as white-on-transparent coverage. */
 function tint(source: HTMLImageElement, color: string): HTMLCanvasElement {
   const canvas = document.createElement('canvas')
@@ -61,16 +67,18 @@ function download(blob: Blob, filename: string) {
  * `document.fonts.ready` alone resolves before faces that nothing has requested
  * yet. Asking for each face by name forces them in.
  */
-function useFontsReady(fonts: Fonts): boolean {
+function useFontsReady(serif: string, sans: string): boolean {
   const [ready, setReady] = useState(false)
   useEffect(() => {
     let live = true
+    setReady(false)
     const faces = [
-      `400 96px ${fonts.serif}`,
-      `italic 400 96px ${fonts.serif}`,
-      `300 30px ${fonts.sans}`,
-      `400 32px ${fonts.sans}`,
-      `500 36px ${fonts.sans}`,
+      `400 96px ${serif}`,
+      `italic 400 96px ${serif}`,
+      `300 30px ${sans}`,
+      `400 32px ${sans}`,
+      `italic 400 30px ${sans}`,
+      `500 36px ${sans}`,
     ]
     Promise.all(faces.map((face) => document.fonts.load(face)))
       .then(() => document.fonts.ready)
@@ -83,7 +91,7 @@ function useFontsReady(fonts: Fonts): boolean {
     return () => {
       live = false
     }
-  }, [fonts])
+  }, [serif, sans])
   return ready
 }
 
@@ -108,15 +116,30 @@ function useDuck(): { ink: CanvasImageSource | null; cream: CanvasImageSource | 
   return state
 }
 
-export function PostBuilder({ fonts }: { fonts: Fonts }) {
+export function PostBuilder({
+  serifChoices,
+  sansChoices,
+}: {
+  serifChoices: FontChoice[]
+  sansChoices: FontChoice[]
+}) {
   const [slides, setSlides] = useState<Slide[]>(starterDeck)
   const [selectedId, setSelectedId] = useState<string | null>(null)
   const [author, setAuthor] = useState('Eric Mariano')
   const [handle, setHandle] = useState('ericmariano.com.br')
   const [hint, setHint] = useState('arraste')
+  const [serifId, setSerifId] = useState(serifChoices[0].id)
+  const [sansId, setSansId] = useState(sansChoices[0].id)
   const [busy, setBusy] = useState(false)
 
-  const fontsReady = useFontsReady(fonts)
+  // Typography is a deck-wide choice — a carousel that changes face mid-swipe
+  // reads as two different posts.
+  const fonts: Fonts = {
+    serif: (serifChoices.find((f) => f.id === serifId) ?? serifChoices[0]).family,
+    sans: (sansChoices.find((f) => f.id === sansId) ?? sansChoices[0]).family,
+  }
+
+  const fontsReady = useFontsReady(fonts.serif, fonts.sans)
   const duck = useDuck()
 
   const selected = slides.find((s) => s.id === selectedId) ?? slides[0] ?? null
@@ -137,14 +160,15 @@ export function PostBuilder({ fonts }: { fonts: Fonts }) {
     [author, handle, hint, slides],
   )
 
+  const { serif, sans } = fonts
   const envFor = useCallback(
     (slide: Slide): DrawEnv => ({
-      serif: fonts.serif,
-      sans: fonts.sans,
+      serif,
+      sans,
       duck: slide.template === 'cover-ink' ? duck.cream : duck.ink,
       duckAspect: duck.aspect,
     }),
-    [duck, fonts],
+    [duck, serif, sans],
   )
 
   const paint = useCallback(
@@ -378,6 +402,24 @@ export function PostBuilder({ fonts }: { fonts: Fonts }) {
           )}
 
           <div className="flex flex-col gap-3 border-t border-[#DCD6C2] pt-4">
+            <p className="text-xs tracking-wide text-[#8A8578] uppercase">Tipografia</p>
+            <FontPicker
+              label="Serifada"
+              hint="Manchetes, numerais e citações."
+              choices={serifChoices}
+              value={serifId}
+              onChange={setSerifId}
+            />
+            <FontPicker
+              label="Sem serifa"
+              hint="Corpo de texto, chapéu e rodapé."
+              choices={sansChoices}
+              value={sansId}
+              onChange={setSansId}
+            />
+          </div>
+
+          <div className="flex flex-col gap-3 border-t border-[#DCD6C2] pt-4">
             <p className="text-xs tracking-wide text-[#8A8578] uppercase">Rodapé do deck</p>
             <div className="flex flex-col gap-1.5">
               <Label htmlFor="author">Nome</Label>
@@ -394,6 +436,45 @@ export function PostBuilder({ fonts }: { fonts: Fonts }) {
           </div>
         </aside>
       </div>
+    </div>
+  )
+}
+
+function FontPicker({
+  label,
+  hint,
+  choices,
+  value,
+  onChange,
+}: {
+  label: string
+  hint: string
+  choices: FontChoice[]
+  value: string
+  onChange: (id: string) => void
+}) {
+  return (
+    <div className="flex flex-col gap-1.5">
+      <Label>{label}</Label>
+      <div className="grid grid-cols-2 gap-1.5">
+        {choices.map((choice) => (
+          <button
+            key={choice.id}
+            type="button"
+            onClick={() => onChange(choice.id)}
+            // Each option previews itself, which is the only way to pick a face.
+            style={{ fontFamily: choice.family }}
+            className={`rounded-md border px-2 py-1.5 text-sm transition-colors ${
+              value === choice.id
+                ? 'border-[#1B475E] bg-[#1B475E] text-white'
+                : 'border-[#C9C2AC] text-[#66625A] hover:border-[#1B475E]'
+            }`}
+          >
+            {choice.label}
+          </button>
+        ))}
+      </div>
+      <p className="text-xs text-[#8A8578]">{hint}</p>
     </div>
   )
 }
