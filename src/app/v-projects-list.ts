@@ -29,13 +29,13 @@ export const projects: Project[] = [
         link: "https://hackhub-mocha.vercel.app/"
     },
     {
-        title: "MeuBolso (mypocket)",
+        title: "MeuBolso",
         description: {
             pt: "Sistema de gestão de finanças pessoais",
             en: "Personal finance management system",
         },
         status: { pt: "refatorando", en: "refactoring" },
-        link: "https://github.com/EricMariano/trackmymoney-front.git"
+        link: "https://meubolso-landing.vercel.app/"
     },
     {
         title: "Cakefy",
