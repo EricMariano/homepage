@@ -24,11 +24,11 @@ export default async function BlogPage({ params }: BlogPageProps) {
   const posts = await getPosts(locale)
 
   return (
-    <div className="mx-auto flex w-full max-w-[40rem] flex-col items-start gap-6 px-6 py-12 md:py-16">
+    <div className="reading-page mx-auto flex w-full max-w-[40rem] flex-col items-start gap-6 px-6 py-12 md:py-16">
       <div className="mb-2 flex w-full items-center justify-between">
         <Link
           href={`/${locale}`}
-          className="flex items-center gap-2 text-sm text-[#66625A] hover:text-[#1B475E] transition-colors"
+          className="flex items-center gap-2 text-sm text-[var(--site-muted)] hover:text-[var(--site-ink)] transition-colors"
           aria-label={dict.post.backLabel}
         >
           <ArrowLeft className="h-4 w-4" />
@@ -47,20 +47,20 @@ export default async function BlogPage({ params }: BlogPageProps) {
             size={56}
           />
         </Link>
-        <h1 className="font-instrument-serif text-2xl md:text-4xl">{dict.blog.heading}</h1>
+        <h1 className="font-medium text-2xl md:text-4xl">{dict.blog.heading}</h1>
       </header>
       <div className="flex w-full flex-col gap-8" role="list" aria-label={dict.blog.listLabel}>
         {posts.map((post) => (
           <article key={post.slug} className="flex flex-col gap-1" role="listitem">
             <Link
               href={`/${locale}/posts/${post.slug}`}
-              className="w-fit hover:text-[#1B475E] transition-colors duration-300"
+              className="w-fit hover:text-[var(--site-ink)] transition-colors duration-300"
             >
               <h2 className="text-base">{post.title}</h2>
             </Link>
-            <p className="text-sm text-[#7A7568]">{post.excerpt}</p>
+            <p className="text-sm text-[var(--site-muted)]">{post.excerpt}</p>
             {post.publishedAt && (
-              <time className="text-xs text-[#8A8578]" dateTime={post.publishedAt}>
+              <time className="text-xs text-[var(--site-muted)]" dateTime={post.publishedAt}>
                 {new Date(post.publishedAt).toLocaleDateString(htmlLang[locale], {
                   day: 'numeric',
                   month: 'long',

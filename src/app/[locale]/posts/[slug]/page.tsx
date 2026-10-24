@@ -43,7 +43,7 @@ export default async function PostPage({ params }: PostPageProps) {
   }
 
   return (
-    <div className="mx-auto flex w-full max-w-[40rem] flex-col items-start gap-6 px-6 py-12 md:py-16">
+    <div className="reading-page mx-auto flex w-full max-w-[40rem] flex-col items-start gap-6 px-6 py-12 md:py-16">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(postSchema) }}
@@ -51,7 +51,7 @@ export default async function PostPage({ params }: PostPageProps) {
       <div className="mb-2 flex w-full items-center justify-between">
         <Link
           href={`/${locale}`}
-          className="flex items-center gap-2 text-sm text-[#66625A] hover:text-[#1B475E] transition-colors"
+          className="flex items-center gap-2 text-sm text-[var(--site-muted)] hover:text-[var(--site-ink)] transition-colors"
           aria-label={dict.post.backLabel}
         >
           <ArrowLeft className="h-4 w-4" />
@@ -71,9 +71,9 @@ export default async function PostPage({ params }: PostPageProps) {
           />
         </Link>
         <div className="flex flex-col gap-1">
-          <h1 className="font-instrument-serif text-2xl md:text-4xl">{post.title}</h1>
+          <h1 className="font-medium text-2xl md:text-4xl">{post.title}</h1>
           {post.publishedAt && (
-            <time className="text-xs text-[#7A7568]" dateTime={post.publishedAt}>
+            <time className="text-xs text-[var(--site-muted)]" dateTime={post.publishedAt}>
               {/* Frontmatter dates are date-only, so they parse as UTC midnight —
                   format in UTC too, or timezones behind it render the day before. */}
               {new Date(post.publishedAt).toLocaleDateString(htmlLang[locale], {

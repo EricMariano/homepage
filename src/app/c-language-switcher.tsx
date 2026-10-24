@@ -10,6 +10,7 @@ interface LanguageSwitcherProps {
     locale: Locale;
     tooltip: string;
     label: string;
+    compact?: boolean;
 }
 
 /** Swaps the leading locale segment of the current path, keeping the reader in place. */
@@ -23,7 +24,7 @@ function localizedPath(pathname: string, target: Locale) {
 }
 
 // Locale changes remount the transition provider, so use a regular Next link.
-export function LanguageSwitcher({ locale, tooltip, label }: LanguageSwitcherProps) {
+export function LanguageSwitcher({ locale, tooltip, label, compact = false }: LanguageSwitcherProps) {
     const pathname = usePathname();
     const target = otherLocale(locale);
 
@@ -38,9 +39,9 @@ export function LanguageSwitcher({ locale, tooltip, label }: LanguageSwitcherPro
                         aria-label={label}
                         hrefLang={target}
                         lang={target}
-                        className="social-button language-button"
+                        className={compact ? "language-switch" : "social-button language-button"}
                     >
-                        <Languages className="size-[17px]" strokeWidth={1.6} />
+                        {compact ? target.toUpperCase() : <Languages className="size-[17px]" strokeWidth={1.6} />}
                     </Link>
                 </TooltipTrigger>
                 <TooltipContent>

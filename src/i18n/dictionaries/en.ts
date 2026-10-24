@@ -31,10 +31,14 @@ export const en = {
   header: {
     photoAlt: "Portrait of Eric Mariano",
     name: "Eric Mariano",
-    roles: ["Software Engineer", "Researcher", "Solutions Architect"],
     bio: {
-      lead: "Currently an architect and software engineer, computer science student and researcher at INCT SimAI (Vhlab), focused on",
-      tail: " RAG techniques, AI solutions and Mobile apps.",
+      heading: "Bio",
+      shortLabel: "Short",
+      longLabel: "Long",
+      lengthLabel: "Biography length",
+      introduction: "I’m a software architect and engineer, a computer science student, and a researcher at INCT SimAI (VHLab).",
+      focus: "My work brings together RAG techniques, artificial intelligence, and mobile applications. Here you’ll find some of the things I build and write about along the way.",
+      detail: "My projects span policy management, hackathon organization, and personal finance. I use this corner of the internet to share projects, ideas, and things I’m learning.",
     },
     github: { tooltip: "Star me on GitHub", label: "Eric Mariano's GitHub" },
     linkedin: { tooltip: "Follow me on LinkedIn", label: "Eric Mariano's LinkedIn" },
@@ -48,10 +52,9 @@ export const en = {
     itemLabel: "Visit project {title}: {description}",
   },
   blog: {
-    heading: "Blog",
+    heading: "Writing",
     listLabel: "Post list",
-    emptyLead: "No posts yet. Posts are created by writing .md/.mdx files in",
-    emptyPath: "content/posts/",
+    emptyLead: "A few thoughts will find their way here soon.",
     seeMore: "See more...",
     itemLabel: "Read post {title}: {excerpt}",
   },
@@ -61,7 +64,12 @@ export const en = {
     notFound: "Post not found",
   },
   footer: {
+    connectLabel: "Find me elsewhere",
     text: "developed by eric mariano",
+  },
+  artwork: {
+    heading: "Selected artwork",
+    publicDomain: "Public domain",
   },
 };
 

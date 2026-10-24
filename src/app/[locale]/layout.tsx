@@ -1,19 +1,13 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ViewTransitions } from "next-view-transitions";
-import { Manrope, Instrument_Serif } from "next/font/google";
+import { Manrope, Newsreader } from "next/font/google";
 import "../globals.css";
 import { StructuredData } from "@/components/structured-data";
 import { Analytics } from "@vercel/analytics/react";
 import { getDictionary } from "@/i18n";
 import { htmlLang, isLocale, locales, openGraphLocale } from "@/i18n/config";
 import { SITE_URL, languageAlternates } from "@/lib/site";
-
-const instrumentSerif = Instrument_Serif({
-  subsets: ["latin"],
-  variable: "--font-instrument-serif",
-  weight: ["400"],
-});
 
 const manrope = Manrope({
   subsets: ["latin"],
@@ -24,6 +18,12 @@ interface LocaleLayoutProps {
   children: React.ReactNode;
   params: Promise<{ locale: string }>;
 }
+
+const newsreader = Newsreader({
+  subsets: ["latin"],
+  variable: "--font-editorial",
+  style: ["normal", "italic"],
+});
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -97,7 +97,7 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
           <StructuredData locale={locale} />
         </head>
         <body
-          className={`${manrope.variable} ${instrumentSerif.variable} font-sans antialiased`}
+          className={`${manrope.variable} ${newsreader.variable} site-body antialiased`}
           suppressHydrationWarning
         >
           {children}

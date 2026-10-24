@@ -34,10 +34,14 @@ export const pt: Dictionary = {
   header: {
     photoAlt: "Foto de Eric Mariano",
     name: "Eric Mariano",
-    roles: ["Engenheiro de Software", "Pesquisador", "Arquiteto de Soluções"],
     bio: {
-      lead: "Atualmente arquiteto e engenheiro de software, estudante de Ciência da Computação e pesquisador no INCT SimAI (Vhlab), focado em",
-      tail: " técnicas de RAG, Soluções de IA e Apps mobile.",
+      heading: "Bio",
+      shortLabel: "Resumida",
+      longLabel: "Completa",
+      lengthLabel: "Tamanho da biografia",
+      introduction: "Sou arquiteto e engenheiro de software, estudante de Ciência da Computação e pesquisador no INCT SimAI (VHLab).",
+      focus: "Meu trabalho passa por técnicas de RAG, inteligência artificial e aplicações mobile. Por aqui, compartilho um pouco do que construo e escrevo pelo caminho.",
+      detail: "Meus projetos exploram gestão de políticas, organização de hackathons e finanças pessoais. Uso este canto da internet para compartilhar projetos, ideias e o que estou aprendendo.",
     },
     github: { tooltip: "Me dê uma estrela no GitHub", label: "GitHub do Eric Mariano" },
     linkedin: { tooltip: "Me siga no LinkedIn", label: "LinkedIn do Eric Mariano" },
@@ -51,10 +55,9 @@ export const pt: Dictionary = {
     itemLabel: "Visitar projeto {title}: {description}",
   },
   blog: {
-    heading: "Blog",
+    heading: "Escritos",
     listLabel: "Lista de posts",
-    emptyLead: "Nenhum post ainda. Os posts são criados escrevendo os arquivos .md/.mdx em",
-    emptyPath: "content/posts/",
+    emptyLead: "Em breve, algumas ideias vão encontrar seu lugar por aqui.",
     seeMore: "Ver mais...",
     itemLabel: "Ler post {title}: {excerpt}",
   },
@@ -64,6 +67,11 @@ export const pt: Dictionary = {
     notFound: "Post não encontrado",
   },
   footer: {
+    connectLabel: "Encontre-me em outros lugares",
     text: "desenvolvido por eric mariano",
+  },
+  artwork: {
+    heading: "Obra em destaque",
+    publicDomain: "Domínio público",
   },
 };
