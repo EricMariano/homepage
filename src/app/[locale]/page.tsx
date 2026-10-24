@@ -19,24 +19,18 @@ export default async function Home({ params }: HomeProps) {
   const posts = await getPosts(locale);
 
   return (
-    <div
-      className="flex h-full min-h-screen w-full flex-col items-center"
-      suppressHydrationWarning
-    >
-      <div className="flex h-full min-h-screen w-full max-w-[43rem] flex-col px-6">
-        <div className="flex items-center justify-between pt-16 sm:pb-4 sm:pt-20">
-          <Header locale={locale} dict={dict.header} />
-        </div>
+    <div className="home-page">
+      <div className="home-shell">
+        <Header locale={locale} dict={dict.header} />
         <main
           id="main-content"
-          className="flex flex-col gap-[24px] row-start-2 items-start"
-          role="main"
+          className="home-main"
           aria-label={dict.a11y.mainContent}
         >
-          <section id="projects" aria-labelledby="projects-heading">
+          <section id="projects" className="home-section home-reveal" aria-labelledby="projects-heading">
             <Projects locale={locale} dict={dict.projects} />
           </section>
-          <section id="blog" aria-labelledby="blog-heading">
+          <section id="blog" className="home-section home-reveal" aria-labelledby="blog-heading">
             <Blog locale={locale} dict={dict.blog} posts={posts} />
           </section>
         </main>

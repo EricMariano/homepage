@@ -29,7 +29,7 @@ export const en = {
     mainContent: "Main content",
   },
   header: {
-    duckAlt: "Hand-drawn illustration of a duck typing on a laptop",
+    photoAlt: "Portrait of Eric Mariano",
     name: "Eric Mariano",
     roles: ["Software Engineer", "Researcher", "Solutions Architect"],
     bio: {

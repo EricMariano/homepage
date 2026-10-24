@@ -1,9 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Image from "next/image";
+import { ProfilePhoto } from "@/components/profile-photo";
 import Link from "next/link";
-import { Separator } from "@/components/ui/separator";
 import { Github, Mail, Linkedin } from "lucide-react";
 import LogoX from "@/assets/logo-x";
 import { LanguageSwitcher } from "./c-language-switcher";
@@ -29,28 +28,27 @@ interface SocialCardProps {
 function SocialCard({ href, label, name, handle, cta, ctaIcon, external = true, children }: SocialCardProps) {
     const externalProps = external ? { target: "_blank", rel: "noopener noreferrer" } : {};
     return (
-        <div className="group relative">
-            <Link href={href} aria-label={label} {...externalProps}>
+        <div className="social-item group">
+            <Link className="social-button" href={href} aria-label={label} {...externalProps}>
                 {children}
             </Link>
-            <div className="pointer-events-none invisible absolute right-0 top-full z-50 hidden translate-y-1 pt-2 opacity-0 transition-all duration-200 ease-out group-hover:pointer-events-auto group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 sm:block">
+            <div className="social-preview">
                 <a
                     href={href}
                     {...externalProps}
-                    className="flex w-56 flex-col gap-2.5 rounded-xl border border-[#DAD4C0] bg-[#F2EEE0] p-4 shadow-sm"
+                    className="social-preview-card"
+                    tabIndex={-1}
+                    aria-label={label}
                 >
-                    <Image
-                        src="/goosefella.png"
+                    <ProfilePhoto
                         alt=""
-                        width={44}
-                        height={40}
-                        className="mix-blend-darken"
+                        size={44}
                     />
                     <div>
                         <p className="font-instrument-serif text-lg leading-tight">{name}</p>
-                        <p className="text-xs text-[#7A7568] break-all">{handle}</p>
+                        <p className="text-xs text-[var(--site-muted)] break-all">{handle}</p>
                     </div>
-                    <span className="mt-0.5 inline-flex w-fit items-center gap-1.5 rounded-full bg-[#1B475E] px-3 py-1 text-xs text-[#F2EEE0]">
+                    <span className="mt-0.5 inline-flex w-fit items-center gap-1.5 rounded-full bg-[#233A48] px-3 py-1 text-xs text-[#F0F5F9]">
                         {ctaIcon}
                         {cta}
                     </span>
@@ -65,45 +63,60 @@ function RoleMorph({ roles }: { roles: readonly string[] }) {
     const [visible, setVisible] = useState(true);
 
     useEffect(() => {
-        const interval = setInterval(() => {
-            setVisible(false);
-            const swap = setTimeout(() => {
-                setIndex((i) => (i + 1) % roles.length);
-                setVisible(true);
-            }, 400);
-            return () => clearTimeout(swap);
-        }, 3200);
-        return () => clearInterval(interval);
+        const preference = window.matchMedia("(prefers-reduced-motion: reduce)");
+        let interval: ReturnType<typeof setInterval> | undefined;
+        let swap: ReturnType<typeof setTimeout> | undefined;
+
+        function updateMotion() {
+            clearInterval(interval);
+            clearTimeout(swap);
+            setVisible(true);
+            if (preference.matches || roles.length < 2) return;
+
+            interval = setInterval(() => {
+                setVisible(false);
+                swap = setTimeout(() => {
+                    setIndex((i) => (i + 1) % roles.length);
+                    setVisible(true);
+                }, 350);
+            }, 3600);
+        }
+
+        updateMotion();
+        preference.addEventListener("change", updateMotion);
+        return () => {
+            clearInterval(interval);
+            clearTimeout(swap);
+            preference.removeEventListener("change", updateMotion);
+        };
     }, [roles.length]);
 
     return (
-        <p
-            className={`text-sm text-[#7A7568] transition-all duration-[400ms] ease-in-out motion-reduce:transition-none ${
-                visible ? "opacity-100 blur-0 translate-y-0" : "opacity-0 blur-[6px] translate-y-0.5"
-            }`}
-        >
-            {roles[index]}
+        <p className="profile-role">
+            <span className="sr-only">{roles.join(" · ")}</span>
+            <span aria-hidden="true" className={`role-label ${visible ? "" : "role-label-changing"}`}>
+                {roles[index]}
+            </span>
         </p>
     );
 }
 
 export function Header({ locale, dict }: HeaderProps) {
     return (
-        <header className="flex flex-col items-start gap-2 pb-4">
-            <Image
-                src="/goosefella.png"
-                alt={dict.duckAlt}
-                width={96}
-                height={87}
-                priority
-                className="mb-1 -ml-[18px] mix-blend-darken transition-transform duration-300 ease-out hover:-rotate-6 [view-transition-name:goose]"
-            />
-            <div className="flex w-full flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+        <header className="profile-header">
+            <div className="profile-mark">
+                <ProfilePhoto
+                    alt={dict.photoAlt}
+                    size={88}
+                    priority
+                />
+            </div>
+            <div className="profile-heading home-reveal">
                 <div>
-                    <h1 className="font-instrument-serif text-3xl md:text-4xl">{dict.name}</h1>
+                    <h1 className="profile-name font-instrument-serif">{dict.name}</h1>
                     <RoleMorph roles={dict.roles} />
                 </div>
-                <div className="flex items-center gap-2 sm:pb-1.5">
+                <div className="social-dock">
                     <SocialCard
                         href="https://github.com/ericmariano"
                         label={dict.github.label}
@@ -112,7 +125,7 @@ export function Header({ locale, dict }: HeaderProps) {
                         cta={dict.github.tooltip}
                         ctaIcon={<Github className="h-3 w-3" strokeWidth={2} />}
                     >
-                        <Github className="w-4.5 h-4.5 mt-1 text-[#8A8578] group-hover:text-[#1B475E] transition-colors duration-200" strokeWidth={1.8} />
+                        <Github className="size-[17px]" strokeWidth={1.6} />
                     </SocialCard>
 
                     <SocialCard
@@ -123,7 +136,7 @@ export function Header({ locale, dict }: HeaderProps) {
                         cta={dict.linkedin.tooltip}
                         ctaIcon={<Linkedin className="h-3 w-3" strokeWidth={2} />}
                     >
-                        <Linkedin className="w-4.5 h-5 mt-1 text-[#8A8578] group-hover:text-[#1B475E] transition-colors duration-200" strokeWidth={1.6} />
+                        <Linkedin className="size-[17px]" strokeWidth={1.6} />
                     </SocialCard>
 
                     <SocialCard
@@ -132,9 +145,9 @@ export function Header({ locale, dict }: HeaderProps) {
                         name={dict.name}
                         handle="@ericmarianodev"
                         cta={dict.x.tooltip}
-                        ctaIcon={<LogoX className="h-3 w-3" pathClassName="fill-[#F2EEE0]" />}
+                        ctaIcon={<LogoX className="h-3 w-3" pathClassName="fill-[#F0F5F9]" />}
                     >
-                        <LogoX pathClassName="fill-[#8A8578] group-hover:fill-[#1B475E] transition-colors duration-200" />
+                        <LogoX className="size-3.5" pathClassName="fill-current" />
                     </SocialCard>
 
                     <SocialCard
@@ -146,9 +159,10 @@ export function Header({ locale, dict }: HeaderProps) {
                         ctaIcon={<Mail className="h-3 w-3" strokeWidth={2} />}
                         external={false}
                     >
-                        <Mail className="w-4.5 h-4.5 mt-1 text-[#8A8578] group-hover:text-[#1B475E] transition-colors duration-200" strokeWidth={1.8} />
+                        <Mail className="size-[17px]" strokeWidth={1.6} />
                     </SocialCard>
 
+                    <span className="dock-divider" aria-hidden="true" />
                     <LanguageSwitcher
                         locale={locale}
                         tooltip={dict.language.tooltip}
@@ -156,10 +170,10 @@ export function Header({ locale, dict }: HeaderProps) {
                     />
                 </div>
             </div>
-            <Separator className="bg-[#DAD4C0]" />
-            <p className="text-sm md:text-base text-[#66625A]">
+            <div className="profile-rule home-reveal" aria-hidden="true" />
+            <p className="profile-bio home-reveal">
                 {dict.bio.lead}
-                {dict.bio.tail}
+                <span className="bio-emphasis">{dict.bio.tail}</span>
             </p>
         </header>
     )

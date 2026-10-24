@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import { ProfilePhoto } from '@/components/profile-photo'
 import { Link } from 'next-view-transitions'
 import { notFound } from 'next/navigation'
 import { ArrowLeft } from 'lucide-react'
@@ -65,12 +65,9 @@ export default async function PostPage({ params }: PostPageProps) {
       </div>
       <header className="flex flex-col gap-3">
         <Link href={`/${locale}`} aria-hidden tabIndex={-1}>
-          <Image
-            src="/goosefella.png"
+          <ProfilePhoto
             alt=""
-            width={56}
-            height={51}
-            className="-ml-[11px] mix-blend-darken transition-transform duration-300 ease-out hover:-rotate-6 [view-transition-name:goose]"
+            size={56}
           />
         </Link>
         <div className="flex flex-col gap-1">

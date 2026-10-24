@@ -32,7 +32,7 @@ export const pt: Dictionary = {
     mainContent: "Conteúdo principal",
   },
   header: {
-    duckAlt: "Ilustração de um pato desenhado à mão digitando em um laptop",
+    photoAlt: "Foto de Eric Mariano",
     name: "Eric Mariano",
     roles: ["Engenheiro de Software", "Pesquisador", "Arquiteto de Soluções"],
     bio: {

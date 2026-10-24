@@ -6,8 +6,8 @@ interface FooterProps {
 
 export function Footer({ dict }: FooterProps) {
     return (
-        <footer className="flex justify-center items-center">
-            <p className="text-xs text-[#8A8578] italic">{dict.text}</p>
+        <footer className="home-footer home-reveal">
+            <p>{dict.text}</p>
         </footer>
     )
 }

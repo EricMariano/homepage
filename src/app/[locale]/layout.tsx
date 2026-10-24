@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ViewTransitions } from "next-view-transitions";
-import { Inter, Instrument_Serif } from "next/font/google";
+import { Manrope, Instrument_Serif } from "next/font/google";
 import "../globals.css";
 import { StructuredData } from "@/components/structured-data";
 import { Analytics } from "@vercel/analytics/react";
@@ -15,9 +15,9 @@ const instrumentSerif = Instrument_Serif({
   weight: ["400"],
 });
 
-const inter = Inter({
+const manrope = Manrope({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-manrope",
 });
 
 interface LocaleLayoutProps {
@@ -97,7 +97,7 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
           <StructuredData locale={locale} />
         </head>
         <body
-          className={`${inter.variable} ${instrumentSerif.variable} antialiased`}
+          className={`${manrope.variable} ${instrumentSerif.variable} font-sans antialiased`}
           suppressHydrationWarning
         >
           {children}

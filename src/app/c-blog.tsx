@@ -2,6 +2,7 @@ import { Link } from "next-view-transitions"
 import type { Post } from "@/lib/posts"
 import { fill, type Dictionary } from "@/i18n"
 import type { Locale } from "@/i18n/config"
+import { ArrowUpRight } from "lucide-react"
 
 interface BlogProps {
   locale: Locale
@@ -14,26 +15,31 @@ export function Blog({ locale, dict, posts }: BlogProps) {
   const hasMorePosts = posts.length > 6
 
   return (
-    <div className="flex flex-col items-start gap-2 pb-8" aria-labelledby="blog-heading">
-      <div className="flex justify-between items-center w-full">
-        <h2 id="blog-heading" className="text-sm text-[#7A7568] pb-2.5">{dict.heading}</h2>
+    <div className="section-content" aria-labelledby="blog-heading">
+      <div className="section-heading">
+        <h2 id="blog-heading">{dict.heading}</h2>
+        <span className="section-line" aria-hidden="true" />
+        <span className="section-count" aria-hidden="true">{String(posts.length).padStart(2, "0")}</span>
       </div>
 
       {posts.length === 0 ? (
         <p className="text-sm text-[#66625A]">{dict.emptyLead} <code className="text-xs">{dict.emptyPath}</code>.</p>
       ) : (
         <>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-40 gap-y-10 w-full" role="list" aria-label={dict.listLabel}>
+          <div className="blog-list" role="list" aria-label={dict.listLabel}>
             {displayedPosts.map((post) => (
-              <article key={post.slug} className="flex flex-col gap-1" role="listitem">
+              <article key={post.slug} role="listitem">
                 <Link
                   href={`/${locale}/posts/${post.slug}`}
-                  className="hover:text-[#1B475E] transition-all duration-300 ease-in-out group flex items-center gap-2"
+                  className="blog-link"
                   aria-label={fill(dict.itemLabel, { title: post.title, excerpt: post.excerpt })}
                 >
-                  <span className="text-sm">{post.title}</span>
+                  <div className="blog-copy">
+                    <h3>{post.title}</h3>
+                    <p>{post.excerpt}</p>
+                  </div>
+                  <span className="card-arrow"><ArrowUpRight size={15} strokeWidth={1.5} aria-hidden="true" /></span>
                 </Link>
-                <p className="text-xs text-[#7A7568]">{post.excerpt}</p>
               </article>
             ))}
           </div>

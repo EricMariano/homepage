@@ -1,6 +1,6 @@
 "use client";
 
-import { Link } from "next-view-transitions";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Languages } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
@@ -22,6 +22,7 @@ function localizedPath(pathname: string, target: Locale) {
     return `/${target}${pathname === "/" ? "" : pathname}`;
 }
 
+// Locale changes remount the transition provider, so use a regular Next link.
 export function LanguageSwitcher({ locale, tooltip, label }: LanguageSwitcherProps) {
     const pathname = usePathname();
     const target = otherLocale(locale);
@@ -32,11 +33,14 @@ export function LanguageSwitcher({ locale, tooltip, label }: LanguageSwitcherPro
                 <TooltipTrigger asChild>
                     <Link
                         href={localizedPath(pathname, target)}
+                        prefetch={true}
+                        scroll={false}
                         aria-label={label}
                         hrefLang={target}
                         lang={target}
+                        className="social-button language-button"
                     >
-                        <Languages className="w-4.5 h-4.5 mt-1 text-[#8A8578] hover:text-[#1B475E] transition-colors duration-200" strokeWidth={1.8} />
+                        <Languages className="size-[17px]" strokeWidth={1.6} />
                     </Link>
                 </TooltipTrigger>
                 <TooltipContent>
