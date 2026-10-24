@@ -7,8 +7,8 @@ import {
   subscribeArtworkRotation,
 } from "../src/lib/artwork-rotation.ts";
 
-test("keeps a painting for 30 minutes and changes exactly at the boundary", () => {
-  assert.equal(interval, 1_800_000);
+test("keeps a painting for 30 seconds and changes exactly at the boundary", () => {
+  assert.equal(interval, 30_000);
   assert.equal(getArtworkIndex(0, 3), 0);
   assert.equal(getArtworkIndex(interval - 1, 3), 0);
   assert.equal(getArtworkIndex(interval, 3), 1);
@@ -19,7 +19,7 @@ test("keeps a painting for 30 minutes and changes exactly at the boundary", () =
 test("uses the same painting across reloads and days without restarting the cycle", () => {
   const time = Date.UTC(2026, 9, 24, 23, 59, 59, 999);
   const index = getArtworkIndex(time, 3);
-  assert.equal(getArtworkIndex(time + 90 * 60 * 1000, 3), index);
+  assert.equal(getArtworkIndex(time + 3 * interval, 3), index);
   assert.equal(getArtworkIndex(time + 1, 3), (index + 1) % 3);
   assert.equal(getArtworkIndex(time + 1, 1), 0);
   assert.throws(() => getArtworkIndex(time, 0), RangeError);

@@ -1,6 +1,6 @@
-export const ARTWORK_ROTATION_MS = 30 * 60 * 1000;
+export const ARTWORK_ROTATION_MS = 30 * 1000;
 
-/** The same half-hour slot is used across reloads, languages and browser tabs. */
+/** The same 30-second slot is used across reloads, languages and browser tabs. */
 export function getArtworkIndex(timestamp: number, count: number): number {
   if (!Number.isInteger(count) || count < 1) throw new RangeError("An artwork is required");
   const slot = Math.floor(timestamp / ARTWORK_ROTATION_MS);

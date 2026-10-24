@@ -1,6 +1,6 @@
 # Artwork gallery
 
-The gallery rotates through the five selected works every 30 minutes. Images
+The gallery rotates through the five selected works every 30 seconds. Images
 are stored locally, and their credits and localized descriptions change together.
 All works are public domain under The Met Open Access program. Reproductions
 are compressed and displayed in their original proportions, without cropping.
