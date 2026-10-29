@@ -11,48 +11,28 @@ export interface Project {
 
 export const projects: Project[] = [
     {
+        title: "Conversa Lens",
+        description: {
+            pt: "Análise de conversas de atendimento em português com Jev, LLMs e sinais de voz",
+            en: "Portuguese customer service conversation analysis with Jev, LLMs, and voice signals",
+        },
+        link: "https://github.com/EricMariano/conversa-lens"
+    },
+    {
+        title: "jev-lanes",
+        description: {
+            pt: "Controle de chamadas de ferramentas em agentes LangGraph por intenção e confiança com Jev",
+            en: "Intent and confidence gating for LangGraph agent tool calls with Jev",
+        },
+        link: "https://github.com/EricMariano/jev-lanes"
+    },
+    {
         title: "Chat Policy",
         description: {
-            pt: "Chatbot baseado em RAG para gestão de políticas",
-            en: "Rag based chatbot for policy management",
+            pt: "API RAG em NestJS para consultar documentos de políticas com OpenAI e Pinecone",
+            en: "NestJS RAG API for querying policy documents with OpenAI and Pinecone",
         },
         status: { pt: "concluído", en: "done" },
         link: "https://github.com/EricMariano/chat-policy-backend"
-    },
-    {
-        title: "HackHub",
-        description: {
-            pt: "Aplicação para gestão de hackathons",
-            en: "Hackathon management app",
-        },
-        status: { pt: "concluído", en: "done" },
-        link: "https://hackhub-mocha.vercel.app/"
-    },
-    {
-        title: "MeuBolso",
-        description: {
-            pt: "Sistema de gestão de finanças pessoais",
-            en: "Personal finance management system",
-        },
-        status: { pt: "refatorando", en: "refactoring" },
-        link: "https://meubolso-landing.vercel.app/"
-    },
-    {
-        title: "Cakefy",
-        description: {
-            pt: "Aplicação para gestão de uma confeitaria",
-            en: "Application for managing a confectionery business",
-        },
-        status: { pt: "pausado", en: "paused" },
-        link: "https://github.com/EricMariano/gestao-de-confeitaria-v2"
-    },
-    {
-        title: "Brasileirão",
-        description: {
-            pt: "Simulador do campeonato brasileiro de futebol",
-            en: "Brazilian football championship simulator",
-        },
-        status: { pt: "meu primeiro projeto", en: "my first project" },
-        link: "https://github.com/EricMariano/SimuladorBrasileirao"
     },
 ];
