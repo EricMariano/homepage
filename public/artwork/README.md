@@ -1,9 +1,18 @@
 # Artwork gallery
 
-The gallery rotates through the five selected works every 30 seconds. Images
+The gallery rotates through the six selected works every 30 seconds. Images
 are stored locally, and their credits and localized descriptions change together.
 All works are public domain under The Met Open Access program. Reproductions
 are compressed and displayed in their original proportions, without cropping.
+
+## Cypresses, 1889
+
+- Artist: Vincent van Gogh
+- Collection: The Metropolitan Museum of Art
+- Credit: Rogers Fund, 1949
+- Artwork: https://www.metmuseum.org/art/collection/search/437980
+- Image: https://images.metmuseum.org/CRDImages/ep/original/DP130999.jpg
+- Local file: `cypresses-van-gogh-1889.jpg`
 
 ## The Rocky Mountains, Lander's Peak, 1863
 

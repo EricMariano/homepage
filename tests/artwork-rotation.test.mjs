@@ -25,9 +25,9 @@ test("uses the same painting across reloads and days without restarting the cycl
   assert.throws(() => getArtworkIndex(time, 0), RangeError);
 });
 
-test("cycles through all five selected works before repeating", () => {
-  const indexes = [0, 1, 2, 3, 4, 5, 6].map((slot) => getArtworkIndex(slot * interval, 5));
-  assert.deepEqual(indexes, [0, 1, 2, 3, 4, 0, 1]);
+test("cycles through all six selected works before repeating", () => {
+  const indexes = [0, 1, 2, 3, 4, 5, 6, 7].map((slot) => getArtworkIndex(slot * interval, 6));
+  assert.deepEqual(indexes, [0, 1, 2, 3, 4, 5, 0, 1]);
 });
 
 test("schedules the next boundary, including when already on a boundary", () => {

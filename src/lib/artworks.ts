@@ -5,6 +5,7 @@ import thunderStorm from "../../public/artwork/approaching-thunder-storm-heade-1
 import parthenon from "../../public/artwork/parthenon-church-1871.jpg";
 import schlossMilkel from "../../public/artwork/schloss-milkel-carus-1833-1835.jpg";
 import mountainMorning from "../../public/artwork/morning-on-the-mountain-hubbard-1856.jpg";
+import cypresses from "../../public/artwork/cypresses-van-gogh-1889.jpg";
 
 interface GalleryArtwork {
   id: string;
@@ -17,6 +18,18 @@ interface GalleryArtwork {
 }
 
 export const artworks: readonly GalleryArtwork[] = [
+  {
+    id: "cypresses-van-gogh-1889",
+    image: cypresses,
+    title: "Cypresses",
+    year: "1889",
+    artist: "Vincent van Gogh",
+    source: "https://www.metmuseum.org/art/collection/search/437980",
+    alt: {
+      en: "Cypresses by Vincent van Gogh: tall dark cypress trees beneath a swirling sky with a crescent moon, with hills and flowering vegetation below.",
+      pt: "Cypresses, de Vincent van Gogh: ciprestes altos e escuros sob um céu de pinceladas ondulantes e uma lua crescente, com colinas e vegetação florida ao redor.",
+    },
+  },
   {
     id: "rocky-mountains-bierstadt-1863",
     image: rockyMountains,
