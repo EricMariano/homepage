@@ -31,6 +31,7 @@ export const en = {
   header: {
     photoAlt: "Portrait of Eric Mariano",
     name: "Eric Mariano",
+    connectLabel: "Find me elsewhere",
     bio: {
       heading: "Bio",
       shortLabel: "Short",
@@ -64,7 +65,6 @@ export const en = {
     notFound: "Post not found",
   },
   footer: {
-    connectLabel: "Find me elsewhere",
     text: "developed by eric mariano",
   },
   artwork: {

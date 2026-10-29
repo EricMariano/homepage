@@ -34,6 +34,7 @@ export const pt: Dictionary = {
   header: {
     photoAlt: "Foto de Eric Mariano",
     name: "Eric Mariano",
+    connectLabel: "Encontre-me em outros lugares",
     bio: {
       heading: "Bio",
       shortLabel: "Resumida",
@@ -67,7 +68,6 @@ export const pt: Dictionary = {
     notFound: "Post não encontrado",
   },
   footer: {
-    connectLabel: "Encontre-me em outros lugares",
     text: "desenvolvido por eric mariano",
   },
   artwork: {
