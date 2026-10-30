@@ -79,6 +79,14 @@
 .bio-toggle button[aria-pressed="true"] { border-bottom-color: var(--site-text); color: var(--site-ink); }
 .bio-copy { display: flex; flex-direction: column; gap: 22px; padding-top: 22px; text-wrap: pretty; }
 .bio-copy p { margin: 0; }
+.bio-highlights { display: flex; flex-direction: column; gap: 12px; margin: 0; padding-left: 18px; list-style-type: square; }
+.bio-highlights li { padding-left: 2px; }
+.bio-highlights li::marker { color: #78756e; font-size: 11px; }
+.bio-stack h3 { margin-bottom: 10px; color: var(--site-ink); font-weight: 550; }
+.bio-stack dl { display: flex; flex-direction: column; gap: 6px; margin: 0; }
+.bio-stack dl > div { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 4px 16px; }
+.bio-stack dt { color: var(--site-muted); }
+.bio-stack dd { margin: 0; }
 .home-section { min-width: 0; }
 #projects { grid-area: projects; }
 #blog { grid-area: writing; }
@@ -131,6 +139,7 @@
   .profile-name { font-size: 36px; }
   .project-list { column-gap: 20px; }
   .bio-toggle { gap: 14px; }
+  .bio-stack dl > div { grid-template-columns: minmax(0, 1fr); gap: 0; }
   .writing-link { gap: 14px; }
   .writing-link time { font-size: 10px; }
   .artwork-caption > div { flex-direction: column; gap: 0; }

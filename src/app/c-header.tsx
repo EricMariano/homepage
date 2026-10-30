@@ -42,9 +42,28 @@ export function Header({ locale, dict }: HeaderProps) {
           </div>
         </div>
         <div id="bio-content" className="bio-copy">
-          <p>{dict.bio.introduction}</p>
-          <p>{dict.bio.focus}</p>
-          {expanded && <p>{dict.bio.detail}</p>}
+          {expanded ? (
+            <>
+              {dict.bio.long.intro.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+              <ul className="bio-highlights">
+                {dict.bio.long.highlights.map((highlight) => <li key={highlight}>{highlight}</li>)}
+              </ul>
+              {dict.bio.long.outro.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+              <div className="bio-stack">
+                <h3>{dict.bio.long.stackHeading}</h3>
+                <dl>
+                  {dict.bio.long.stack.map(({ label, items }) => (
+                    <div key={label}>
+                      <dt>{label}</dt>
+                      <dd>{items}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </div>
+            </>
+          ) : (
+            dict.bio.short.map((paragraph) => <p key={paragraph}>{paragraph}</p>)
+          )}
         </div>
       </section>
     </header>
